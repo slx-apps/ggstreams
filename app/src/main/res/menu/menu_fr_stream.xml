@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_retry"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/retry"
+        android:orderInCategory="99"
+        app:showAsAction="ifRoom"
+        />
+
+    <item android:id="@+id/action_fullscreen"
+        android:icon="@drawable/ic_fullscreen"
+        android:title="@string/fullscreen"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        />
+<!--
+    <item android:id="@+id/action_add_fav"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="@string/add_favorites"
+        android:orderInCategory="101"
+        app:showAsAction="ifRoom"
+        />
+-->
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        android:orderInCategory="102"
+        app:showAsAction="ifRoom"
+        />
+
+
+</menu>

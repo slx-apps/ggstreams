@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contentRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true" />
+
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:keepScreenOn="true"
+        android:transitionName="stream_preview"
+        app:controller_layout_id="@layout/control_view" >
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvChat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/containerNewMessage"
+        android:padding="4dp" />
+
+    <LinearLayout
+        android:id="@+id/containerNewMessage"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_below="@+id/playerView"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/chat_input_background"
+            android:ems="10"
+            android:inputType="text"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <ImageView
+            android:id="@+id/ivOpenEmoteIcons"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_insert_emoticon" />
+
+        <ImageView
+            android:id="@+id/ivSend"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_send" />
+    </LinearLayout>
+
+</RelativeLayout>

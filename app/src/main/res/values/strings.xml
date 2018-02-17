@@ -1,0 +1,62 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">GGStreams</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="application_name">ExoPlayer</string>
+    <string name="video">Video</string>
+    <string name="audio">Audio</string>
+    <string name="text">Text</string>
+    <string name="retry">Retry</string>
+    <string name="selection_disabled">Disabled</string>
+    <string name="selection_default">Default</string>
+    <string name="selection_default_none">Default (none)</string>
+    <string name="unexpected_intent_action">Unexpected intent action: <xliff:g id="action">%1$s</xliff:g></string>
+    <string name="enable_random_adaptation">Enable random adaptation</string>
+    <string name="error_drm_not_supported">Protected content not supported on API levels below 18</string>
+    <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
+    <string name="error_drm_unknown">An unknown DRM error occurred</string>
+    <string name="error_no_decoder">This device does not provide a decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_no_secure_decoder">This device does not provide a secure decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+    <string name="error_querying_decoders">Unable to query device decoders</string>
+    <string name="error_instantiating_decoder">Unable to instantiate decoder <xliff:g id="decoder_name">%1$s</xliff:g></string>
+    <string name="error_unsupported_video">Media includes video tracks, but none are playable by this device</string>
+    <string name="error_unsupported_audio">Media includes audio tracks, but none are playable by this device</string>
+    <string name="storage_permission_denied">Permission to access storage was denied</string>
+    <string name="sample_list_load_error">One or more sample lists failed to load</string>
+    <string name="refresh">Refresh</string>
+    <string name="search">Search</string>
+    <string name="search_query_hint">Hint</string>
+    <string name="add_favorites">Add to Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="account">Account</string>
+
+    <string name="prefs_category_title_stream">Stream settings</string>
+    <string name="prefs_category_title_chat">Chat Settings</string>
+    <string name="prefs_stream_autoplay">Autoplay</string>
+    <string name="prefs_stream_autoplay_summary">Auto start stream</string>
+    <string name="prefs_chat_scroll">Scroll</string>
+    <string name="prefs_chat_scroll_summary">Scroll summary</string>
+    <string name="prefs_chat_awake">Awake</string>
+    <string name="prefs_chat_awake_summary">Summary</string>
+    <string name="prefs_chat_emote_icons">Show icons</string>
+    <string name="prefs_chat_emote_icons_summary">show icons summary</string>
+    <string name="added_to_recent">Added to recent</string>
+    <string name="tab_recent_title">Recent</string>
+    <string name="tab_free_title">Free</string>
+    <string name="auth">Auth</string>
+    <string name="nav_streams">Streams</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="fullscreen">Open in fullscreen</string>
+    <string name="reload">Reload</string>
+    <string name="ft_title_login">Login</string>
+    <string name="ft_title_user_account_info">Account info</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="auth_login">Login</string>
+    <string name="auth_error_login">Peka error</string>
+    <string name="action_log_out">Log out</string>
+    <string name="action_login">Login</string>
+    <string name="error_general">Something went wrong</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/primary</color>
+    <color name="colorPrimaryDark">@color/primary_dark</color>
+    <color name="colorAccent">@color/accent</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="gold">#FFD700</color>
+    <color name="premium">#2E7D32</color>
+    <color name="background_dark">#424242</color>
+    <color name="dark">#343434</color>
+    <color name="blue_gray">#455A64</color>
+
+
+    <color name="player_controls_background">#66444444</color>
+</resources>

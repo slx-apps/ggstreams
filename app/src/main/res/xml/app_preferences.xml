@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/prefs_category_title_stream">
+        <CheckBoxPreference
+            android:title="@string/prefs_stream_autoplay"
+            android:icon="@drawable/ic_play_circle_outline"
+            android:summary="@string/prefs_stream_autoplay_summary"
+            android:defaultValue="true"
+            android:key="stream.autoplay"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/prefs_category_title_chat">
+        <CheckBoxPreference
+            android:title="@string/prefs_chat_scroll"
+            android:icon="@drawable/ic_scroll"
+            android:summary="@string/prefs_chat_scroll_summary"
+            android:defaultValue="true"
+            android:key="chat.scroll"
+            />
+        <CheckBoxPreference
+            android:title="@string/prefs_chat_awake"
+            android:icon="@drawable/ic_lightbulb_outline"
+            android:summary="@string/prefs_chat_awake_summary"
+            android:defaultValue="true"
+            android:key="chat.awake"
+            />
+        <CheckBoxPreference
+            android:title="@string/prefs_chat_emote_icons"
+            android:icon="@drawable/ic_no_images"
+            android:summary="@string/prefs_chat_emote_icons_summary"
+            android:defaultValue="true"
+            android:key="chat.icons"
+            />
+
+        <!--
+        <CheckBoxPreference
+            android:title="@string/prefs_chat_images"
+            android:summary="@string/prefs_chat_images_summary"
+            android:defaultValue="false"
+            android:key="chat.images"
+            />
+         -->
+    </PreferenceCategory>
+
+</PreferenceScreen>

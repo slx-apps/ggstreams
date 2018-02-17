@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                storeFile file(RELEASE_STORE_FILE)
+                storePassword RELEASE_STORE_PASSWORD
+                keyAlias RELEASE_KEY_ALIAS
+                keyPassword RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    defaultConfig {
+        applicationId "com.nlx.ggstreams"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 2
+        versionName "1.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:2.0.1'
+    }
+}
+
+kapt {
+    generateStubs = true
+}
+
+ext {
+    dagger_version = "2.14.1"
+    butterknife_version = "8.8.1"
+    rxjava_version = "2.1.0"
+    rxandroid_version = "2.0.1"
+    rxlifecycle_version = "2.2.1"
+    rxbinding_version = "2.0.0"
+    rxrelay_version = "2.0.0"
+    crashlytics_version = "2.6.5@aar"
+    leakcanary_version = "1.5"
+    stetho_version = "1.4.1"
+    espresso_version = "2.2.2"
+    espresso_rules_version = "0.5"
+    glide_version = "4.4.0"
+    exoplayer_version = "2.6.1"
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    compile project(':core')
+
+
+    compile "com.android.support:recyclerview-v7:$support_lib_version"
+    compile "com.android.support:cardview-v7:$support_lib_version"
+    compile "com.android.support:appcompat-v7:$support_lib_version"
+    compile "com.android.support:design:$support_lib_version"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // DI
+    compile  "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    compile "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    // api
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    compile "com.google.code.gson:gson:$gson_version"
+    compile "com.android.support:support-annotations:$support_lib_version"
+
+    // rx
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
+    compile "com.jakewharton.rxrelay2:rxrelay:$rxrelay_version"
+    compile "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
+    compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxlifecycle_version"
+    compile "com.trello.rxlifecycle2:rxlifecycle-components:$rxlifecycle_version"
+    compile "com.jakewharton.rxbinding2:rxbinding-support-v4:$rxbinding_version"
+    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding_version"
+    compile "com.jakewharton.rxrelay2:rxrelay:$rxrelay_version"
+
+    // images
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+
+    compile "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
+    compile "com.google.android.exoplayer:exoplayer-hls:$exoplayer_version"
+    compile "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
+
+
+}
