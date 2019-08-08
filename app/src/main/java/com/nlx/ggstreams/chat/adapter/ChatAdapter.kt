@@ -35,7 +35,7 @@ class ChatAdapter(val context: Context,
 
     override fun getItemCount(): Int =  messages.size
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MessageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.row_chat_message, parent, false)
 
         val viewHolder = MessageViewHolder(view)

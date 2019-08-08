@@ -1,6 +1,7 @@
 package com.nlx.ggstreams.stream
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import com.nlx.ggstreams.R
@@ -9,12 +10,20 @@ import com.nlx.ggstreams.stream.StreamFragment
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import java.util.stream.Stream
 
-val KEY_STREAM = "stream"
+
 
 class StreamActivity : RxAppCompatActivity() {
 
     companion object {
         val TAG = "StreamActivity"
+        val KEY_STREAM = "stream"
+
+        fun toIntent(context: Context, ggStream: GGStream): Intent {
+            val intent = Intent(context, StreamActivity::class.java)
+            intent.putExtra(KEY_STREAM, ggStream)
+
+            return intent
+        }
     }
 
     private lateinit var stream: GGStream

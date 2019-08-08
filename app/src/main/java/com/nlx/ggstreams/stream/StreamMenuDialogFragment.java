@@ -86,7 +86,7 @@ public class StreamMenuDialogFragment extends BottomSheetDialogFragment implemen
 
                 // This is gotten directly from the source of BottomSheetDialog
                 // in the wrapInBottomSheet() method
-                FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
+                FrameLayout bottomSheet = (FrameLayout) d.findViewById(R.id.design_bottom_sheet);
 
                 // Right here!
                 BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);

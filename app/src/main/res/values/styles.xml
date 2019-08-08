@@ -1,11 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!--&lt;!&ndash; New MaterialComponents attributes. &ndash;&gt;-->
+        <!--<item name="colorSecondary">?attr/colorPrimary</item>-->
+        <!--<item name="scrimBackground">@color/mtrl_scrim_color</item>-->
+        <!--<item name="snackbarButtonStyle">?attr/borderlessButtonStyle</item>-->
     </style>
 
     <style name="StreamTheme" parent="AppTheme">
@@ -30,7 +35,5 @@
         <item name="android:windowEnterAnimation">@anim/keyboard_show</item>
         <item name="android:windowExitAnimation">@anim/keyboard_hide</item>
     </style>
-
-    <style name="StreamMenuQualityStyle"></style>
 
 </resources>

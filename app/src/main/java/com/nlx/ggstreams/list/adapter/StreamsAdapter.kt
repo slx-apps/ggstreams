@@ -1,6 +1,8 @@
 package com.nlx.ggstreams.list.adapter
 
+import android.arch.paging.PagedListAdapter
 import android.content.Context
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,11 +12,22 @@ import com.squareup.picasso.Picasso
 
 class StreamsAdapter (val context: Context,
                       val picasso: Picasso,
-                      private val onClickListener: (GGStream) -> Unit) : RecyclerView.Adapter<StreamViewHolder>() {
+                      private val onClickListener: (GGStream) -> Unit
+                      ) : PagedListAdapter<GGStream, StreamViewHolder>(STREAMS_DIFF_CALLBACK) {
 
-    private var streamList: List<GGStream> = listOf()
-    //private var listener: OnStreamClickListener? = null
+    companion object {
 
+        val STREAMS_DIFF_CALLBACK = object : DiffUtil.ItemCallback<GGStream>() {
+
+            override fun areItemsTheSame(oldStream: GGStream,
+                                         newStream: GGStream): Boolean =
+                    oldStream.key == newStream.key
+
+            override fun areContentsTheSame(oldStream: GGStream,
+                                            newStream: GGStream): Boolean =
+                    oldStream == newStream
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.row_stream, parent, false)
@@ -24,30 +37,15 @@ class StreamsAdapter (val context: Context,
     }
 
     override fun onBindViewHolder(holder: StreamViewHolder, position: Int) {
-        val stream = streamList[position]
+        val stream = getItem(position)
 
-        holder.bind(stream)
+        stream?.let {
+            holder.bind(it)
 
-        holder.itemView.setOnClickListener {
-            //listener?.onStreamClicked(stream)
-            onClickListener(stream)
+            holder.itemView.setOnClickListener {
+                onClickListener(stream)
+            }
         }
-    }
 
-    override fun getItemCount(): Int {
-        return streamList.size
-    }
-
-//    fun setListener(listener: OnStreamClickListener?) {
-//        this.listener = listener
-//    }
-//
-//    interface OnStreamClickListener {
-//        fun onStreamClicked(stream: GGStream)
-//    }
-
-    fun setList(list: List<GGStream>, refresh: Boolean) {
-        this.streamList = list
-        notifyDataSetChanged()
     }
 }

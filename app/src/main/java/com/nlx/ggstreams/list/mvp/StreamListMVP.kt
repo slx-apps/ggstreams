@@ -4,12 +4,12 @@ import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.models.StreamListResponse
 import com.nlx.ggstreams.mvp.BasePresenter
 import com.nlx.ggstreams.mvp.BaseView
-import io.reactivex.Observable
+import io.reactivex.Single
 
 interface StreamListMVP {
 
     interface Model {
-        fun fetchStreams(page: Int) : Observable<StreamListResponse>
+        fun fetchStreams(page: Int) : Single<StreamListResponse>
     }
 
     interface Presenter : BasePresenter {

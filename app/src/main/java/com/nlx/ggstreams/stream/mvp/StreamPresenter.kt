@@ -6,12 +6,12 @@ import javax.inject.Inject
 
 
 class StreamPresenter @Inject constructor(private val preferences: PreferencesUtils
-                                          ) : StreamMVP.Presenter {
+                                         ) : StreamMVP.Presenter {
 
     override var compositeDisposal = CompositeDisposable()
 
-    override fun shouldAutoPlay(): Boolean  = preferences.shouldAutoPlay()
+    override fun shouldAutoPlay(): Boolean  = preferences.shouldAutoPlay
 
-    override fun isScrollToLast(): Boolean = preferences.isScrollToLast()
+    override fun isScrollToLast(): Boolean = preferences.isScrollToLast
 
 }

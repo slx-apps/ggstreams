@@ -1,5 +1,7 @@
 package com.nlx.ggstreams.list
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,25 +11,19 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import android.widget.Toast
-import com.nlx.ggstreams.EndlessRecyclerViewScrollListener
+import androidx.core.os.bundleOf
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.list.mvp.StreamListModel
+import com.nlx.ggstreams.di.ViewModelFactory
 import com.nlx.ggstreams.list.adapter.StreamsAdapter
 import com.nlx.ggstreams.list.mvp.StreamListMVP
 import com.nlx.ggstreams.models.GGStream
-import com.nlx.ggstreams.models.StreamListResponse
-import com.nlx.ggstreams.stream.KEY_STREAM
 import com.nlx.ggstreams.stream.StreamActivity
+import com.nlx.ggstreams.stream.StreamActivity.Companion.KEY_STREAM
+import com.nlx.ggstreams.utils.rx.RxUtils
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.components.support.RxFragment
 import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.annotations.NonNull
-import io.reactivex.observers.DisposableObserver
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fr_stream_list.*
-import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "StreamListFragment"
@@ -37,10 +33,14 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     @Inject
     lateinit var picasso: Picasso
     @Inject
-    lateinit var presenter: StreamListMVP.Presenter
+    lateinit var factory: ViewModelFactory
+    @Inject
+    lateinit var rxUtils: RxUtils
+
+    private lateinit var model: StreamListViewModel
 
     private val adapter by lazy {
-        StreamsAdapter(context, picasso) {
+        StreamsAdapter(context!!, picasso) {
             val intent = Intent(activity, StreamActivity::class.java)
             intent.putExtra(KEY_STREAM, it)
             startActivity(intent)
@@ -67,14 +67,15 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fr_stream_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fr_stream_list, container, false)
         return view
     }
 
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        model = ViewModelProviders.of(this, factory).get(StreamListViewModel::class.java)
 
         val spans = resources.getInteger(R.integer.stream_list_spans)
 
@@ -96,15 +97,11 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
 
         rvStreamList.itemAnimator = DefaultItemAnimator()
         rvStreamList.setHasFixedSize(false)
-        rvStreamList.addOnScrollListener(object : EndlessRecyclerViewScrollListener(gridLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int) {
-                Log.d(TAG, "onLoadMore() called with: page = [$page], totalItemsCount = [$totalItemsCount]")
 
-                loadStreams(false)
-            }
+        model.listLiveData().observe(this, Observer {
+            swipeContainer.isRefreshing = false
+            adapter.submitList(it)
         })
-
-        loadStreams(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -114,7 +111,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item!!.itemId
+        val id = item?.itemId
 
         if (id == R.id.action_refresh) {
             loadStreams(true)
@@ -126,7 +123,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     private fun loadStreams(refresh: Boolean) {
         swipeContainer.isRefreshing = refresh
 
-        presenter.loadStreams(refresh)
+        model.invalidateList()
     }
 
     override fun streamListLoaded(list: List<GGStream>, refresh: Boolean) {
@@ -135,8 +132,6 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         if (refresh) {
             swipeContainer.isRefreshing = false
         }
-
-        adapter.setList(list, refresh)
         adapter.notifyDataSetChanged()
     }
 

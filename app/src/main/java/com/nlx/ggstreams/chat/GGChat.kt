@@ -15,10 +15,10 @@ import io.reactivex.subjects.PublishSubject
 import okhttp3.*
 import okhttp3.Response
 
-class GGChat(val client: OkHttpClient,
+class GGChat(private val client: OkHttpClient,
              val api: GGApi,
-             val gson: Gson,
-             val manager: AuthManager
+             private val gson: Gson,
+             private val manager: AuthManager
     ) : WebSocketListener() {
 
     private val parser: JsonParser = JsonParser ()
@@ -32,7 +32,7 @@ class GGChat(val client: OkHttpClient,
 
 
     fun joinChannel(channel: Int) {
-        Log.d(TAG, "joinChannel: " + channel)
+        Log.d(TAG, "joinChannel: $channel")
 
         channelId = channel
         if (channelId >= 0) {
@@ -56,7 +56,7 @@ class GGChat(val client: OkHttpClient,
 
     override fun onMessage(webSocket: WebSocket?, text: String?) {
         super.onMessage(webSocket, text)
-        Log.d(TAG, "received message: " + text)
+        Log.d(TAG, "received message: $text")
 
         val messageObject = parser.parse(text).asJsonObject
 
@@ -88,7 +88,7 @@ class GGChat(val client: OkHttpClient,
 
                 }
 
-                else -> Log.e(TAG, "No such message type " + messageType)
+                else -> Log.e(TAG, "No such message type $messageType")
             }
         }
     }
@@ -132,7 +132,7 @@ class GGChat(val client: OkHttpClient,
             return
         }
 
-        Log.d(TAG, "attachAuthFragment: " + chatProfile)
+        Log.d(TAG, "login: $chatProfile")
 
         val dataContainer = DataContainer(CHAT_TYPE_AUTH, AuthRequest(chatProfile.userId, chatProfile.token))
 

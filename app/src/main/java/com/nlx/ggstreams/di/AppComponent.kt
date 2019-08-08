@@ -17,7 +17,9 @@ import dagger.android.support.AndroidSupportInjectionModule
         AuthModule::class,
         UtilsModule::class,
         BuildersModule::class,
-        RxHelperModule::class))
+        RxHelperModule::class,
+        ViewModelModule::class,
+        DataModule::class))
 interface AppComponent {
 
     @Component.Builder

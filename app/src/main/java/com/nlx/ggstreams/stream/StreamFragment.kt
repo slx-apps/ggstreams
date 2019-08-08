@@ -30,6 +30,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.jakewharton.rxbinding2.view.RxView
+import com.nlx.ggstreams.MainActivity
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.chat.GGChat
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
@@ -107,7 +108,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     private var isFullScreen = true
 
     private val adapter: ChatAdapter by lazy  {
-        ChatAdapter(context, repo) {
+        ChatAdapter(context!!, repo) {
             etMessage.text.append(it.userName + ", ")
         }
     }
@@ -117,7 +118,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
         fun newInstance(stream : GGStream): StreamFragment {
             val newsFragment = StreamFragment()
             val args = Bundle()
-            args.putParcelable(KEY_STREAM, stream)
+            args.putParcelable(StreamActivity.KEY_STREAM, stream)
             newsFragment.arguments = args
             return newsFragment
         }
@@ -135,7 +136,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
 
         val args = arguments
         if (args != null) {
-            stream = args.getParcelable(KEY_STREAM)
+            stream = args.getParcelable(StreamActivity.KEY_STREAM)
         }
 
         setHasOptionsMenu(true)
@@ -157,15 +158,15 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fr_stream, container, false) as View
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fr_stream, container, false) as View
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbar = view?.findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
         (activity as StreamActivity).setSupportActionBar(toolbar)
 
 
@@ -368,9 +369,9 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
 
     override fun onVisibilityChange(visibility: Int) {
         if (visibility == View.GONE) {
-            activity.window.decorView.systemUiVisibility = fullScreenFlags
+            activity?.window?.decorView?.systemUiVisibility = fullScreenFlags
         } else if (visibility == View.VISIBLE) {
-            activity.window.decorView.systemUiVisibility = normalFlags
+            activity?.window?.decorView?.systemUiVisibility = normalFlags
         }
     }
 
@@ -430,9 +431,9 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
 
     private fun openFullscreen(fullScreen: Boolean) {
         if (fullScreen) {
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         } else {
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         }
         isFullScreen = !isFullScreen
 
@@ -511,7 +512,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     }
 
     private fun createKeyboard() {
-        emoteIconsKeyboard = EmoteIconsKeyboard(context,
+        emoteIconsKeyboard = EmoteIconsKeyboard(context!!,
                 contentRoot, this@StreamFragment, repo, picasso)
         emoteIconsKeyboard?.let {
             it.onEmoteIconClickListener = this

@@ -40,14 +40,14 @@ class LoginFragment : RxFragment(), LoginMVP.View {
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fr_login, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fr_login, container, false)
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+/*
         val (_, _, login) = presenter.getProfile()
         etLogin.setText(login)
 
@@ -77,10 +77,11 @@ class LoginFragment : RxFragment(), LoginMVP.View {
                 .subscribe {
                     presenter.chatLogin(etLogin.text.toString(), etPassword.text.toString())
                 }
+*/
     }
 
     override fun userLoggedIn() {
-        activity.finish()
+        activity?.finish()
     }
 
     override fun handleErrors(e: Throwable) {

@@ -1,6 +1,7 @@
 package com.nlx.ggstreams.auth
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.view.*
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.di.AuthManager
@@ -10,7 +11,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fr_user.*
 import javax.inject.Inject
 
-class UserFragment : RxFragment(), UserProfileMVP.View {
+class UserFragment : Fragment(), UserProfileMVP.View {
 
 
     @Inject
@@ -32,16 +33,16 @@ class UserFragment : RxFragment(), UserProfileMVP.View {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fr_user, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fr_user, container, false)
         return view
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         if (presenter.getProfile()?.userId != -1) {
-            tvUsername.text = presenter.getProfile()?.login
+            tvProfileUsername.text = presenter.getProfile()?.login
         }
     }
 
@@ -55,7 +56,7 @@ class UserFragment : RxFragment(), UserProfileMVP.View {
 
         if (id == R.id.action_sign_out) {
             presenter.logout()
-            activity.finish()
+            activity?.finish()
         }
 
         return super.onOptionsItemSelected(item)

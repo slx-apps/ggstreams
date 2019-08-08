@@ -6,6 +6,7 @@ import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.models.StreamListResponse
 import com.nlx.ggstreams.rest.GGRestClient
 import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -16,7 +17,7 @@ interface GGApi {
 
     @Headers(GGRestClient.HEADER_API_V2_VERSION)
     @GET(GGRestClient.GOODGAME_API_V2_STREAMS)
-    fun streams(@Query("page") page: Int): Observable<StreamListResponse>
+    fun streams(@Query("page") page: Int): Single<StreamListResponse>
 
     @GET(GGRestClient.CHANNEL_STATUS)
     fun getStreamByName(@Query("id") id: String,
