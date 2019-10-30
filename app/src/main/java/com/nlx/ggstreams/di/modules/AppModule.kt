@@ -7,17 +7,17 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class AppModule(val application: App) {
+class AppModule() {
 
-    @Provides
-    @PerApp
-    fun application(): App {
-        return this.application
-    }
-
-    @Provides
-    @PerApp
-    fun applicationContext(): Context {
-        return this.application
-    }
+//    @Provides
+//    @PerApp
+//    fun application(): App {
+//        return this.application
+//    }
+//
+//    @Provides
+//    @PerApp
+//    fun applicationContext(): Context {
+//        return this.application
+//    }
 }

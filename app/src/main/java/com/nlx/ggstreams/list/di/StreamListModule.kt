@@ -1,5 +1,6 @@
 package com.nlx.ggstreams.list.di
 
+import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.di.PerScreen
 import com.nlx.ggstreams.list.StreamListFragment
 import com.nlx.ggstreams.list.mvp.StreamListMVP
@@ -29,15 +30,15 @@ abstract class StreamListModule {
 */
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideView(fragment: StreamListFragment) : StreamListMVP.View
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamListPresenter(presenter: StreamListPresenter) : StreamListMVP.Presenter
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamListModel(model: StreamListModel) : StreamListMVP.Model
 
 }

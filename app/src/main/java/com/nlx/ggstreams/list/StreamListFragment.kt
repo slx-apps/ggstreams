@@ -1,17 +1,14 @@
 package com.nlx.ggstreams.list
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
-import androidx.core.os.bundleOf
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.di.ViewModelFactory
 import com.nlx.ggstreams.list.adapter.StreamsAdapter
@@ -22,7 +19,6 @@ import com.nlx.ggstreams.stream.StreamActivity.Companion.KEY_STREAM
 import com.nlx.ggstreams.utils.rx.RxUtils
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fr_stream_list.*
 import javax.inject.Inject
 
@@ -57,7 +53,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        //AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

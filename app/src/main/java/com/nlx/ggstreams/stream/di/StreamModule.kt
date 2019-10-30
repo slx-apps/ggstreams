@@ -2,6 +2,7 @@ package com.nlx.ggstreams.stream.di
 
 import com.nlx.ggstreams.chat.mvp.StreamChatMVP
 import com.nlx.ggstreams.chat.mvp.StreamChatPresenter
+import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.di.PerScreen
 import com.nlx.ggstreams.stream.StreamFragment
 import com.nlx.ggstreams.stream.mvp.BaseStreamModel
@@ -15,19 +16,19 @@ import dagger.Module
 abstract class StreamModule {
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamView(fragment: StreamFragment) : StreamMVP.StreamView
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamPresenter(presenter: StreamPresenter) : StreamMVP.Presenter
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamChatPresenter(presenter: StreamChatPresenter) : StreamChatMVP.Presenter
 
     @Binds
-    @PerScreen
+    @PerApp
     abstract fun provideStreamModel(model: BaseStreamModel) : StreamMVP.Model
 
 }

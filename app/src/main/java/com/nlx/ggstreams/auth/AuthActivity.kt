@@ -3,20 +3,22 @@ package com.nlx.ggstreams.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
+import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.LoginFragment
-import com.nlx.ggstreams.auth.login.di.AuthManager
-import dagger.android.AndroidInjection
+import com.nlx.ggstreams.auth.di.UserSubComponent
+import com.nlx.ggstreams.auth.user.UserFragment
 import javax.inject.Inject
 
 class AuthActivity : AppCompatActivity() {
 
     @Inject
     lateinit var manager: AuthManager
+
+    lateinit var useComponent: UserSubComponent
 
     companion object {
         fun start(context: Context) {
@@ -25,7 +27,8 @@ class AuthActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+        useComponent = (application as App).appComponent.userComponent().create()
+        useComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_auth)

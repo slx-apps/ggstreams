@@ -2,22 +2,19 @@ package com.nlx.ggstreams.stream
 
 import android.content.Context
 import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.Toolbar
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil
@@ -30,12 +27,10 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.jakewharton.rxbinding2.view.RxView
-import com.nlx.ggstreams.MainActivity
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.chat.GGChat
+import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
 import com.nlx.ggstreams.chat.mvp.StreamChatMVP
-import com.nlx.ggstreams.auth.login.di.AuthManager
 import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.keyboard.EmoteIconsKeyboard
 import com.nlx.ggstreams.keyboard.OnEmoteIconClickListener
@@ -47,15 +42,12 @@ import com.nlx.ggstreams.stream.mvp.StreamMVP
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.support.AndroidSupportInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.subscribers.DisposableSubscriber
+import kotlinx.android.synthetic.main.fr_stream.*
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.util.*
 import javax.inject.Inject
-import kotlinx.android.synthetic.main.fr_stream.*
 
 class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.VisibilityListener,
         OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener,
@@ -125,7 +117,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        //AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

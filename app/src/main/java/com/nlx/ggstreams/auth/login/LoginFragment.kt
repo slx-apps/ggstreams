@@ -2,31 +2,26 @@ package com.nlx.ggstreams.auth.login
 
 import android.content.Context
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jakewharton.rxbinding2.view.RxView
-import com.jakewharton.rxbinding2.widget.RxTextView
+import com.google.android.material.snackbar.Snackbar
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.auth.login.mvp.LoginMVP
+import com.nlx.ggstreams.auth.AuthActivity
+import com.nlx.ggstreams.auth.user.AuthViewModel
 import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.support.AndroidSupportInjection
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
 import kotlinx.android.synthetic.main.fr_login.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class LoginFragment : RxFragment(), LoginMVP.View {
+class LoginFragment : RxFragment() {
 
     @Inject
-    lateinit var presenter: LoginMVP.Presenter
+    lateinit var viewModel: AuthViewModel
 
     companion object {
         const val TAG = "LoginFragment"
         const val DELAY = 300L
+
         fun newInstance(): LoginFragment {
             val loginFragment = LoginFragment()
             val args = Bundle()
@@ -36,7 +31,7 @@ class LoginFragment : RxFragment(), LoginMVP.View {
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+        (activity as AuthActivity).useComponent.inject(this)
         super.onAttach(context)
     }
 
@@ -80,11 +75,11 @@ class LoginFragment : RxFragment(), LoginMVP.View {
 */
     }
 
-    override fun userLoggedIn() {
+    fun userLoggedIn() {
         activity?.finish()
     }
 
-    override fun handleErrors(e: Throwable) {
+    fun handleErrors(e: Throwable) {
         Snackbar.make(loginContainer, R.string.auth_error_login, Snackbar.LENGTH_LONG).show()
     }
 }

@@ -6,11 +6,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.nlx.ggstreams.auth.AuthActivity
-import com.nlx.ggstreams.auth.login.di.AuthManager
+import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.list.StreamListFragment
 import com.nlx.ggstreams.settings.AppSettingsActivity
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -25,7 +24,7 @@ class MainActivity : RxAppCompatActivity() {
     lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
+        (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

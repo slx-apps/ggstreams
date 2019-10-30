@@ -1,21 +1,18 @@
-package com.nlx.ggstreams.auth
+package com.nlx.ggstreams.auth.user
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.*
+import androidx.fragment.app.Fragment
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.auth.login.di.AuthManager
-import com.nlx.ggstreams.auth.user.mvp.UserProfileMVP
-import com.trello.rxlifecycle2.components.support.RxFragment
-import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fr_user.*
+import com.nlx.ggstreams.auth.AuthActivity
 import javax.inject.Inject
 
-class UserFragment : androidx.fragment.app.Fragment(), UserProfileMVP.View {
+class UserFragment : Fragment() {
 
 
     @Inject
-    lateinit var presenter: UserProfileMVP.Presenter
+    lateinit var viewModel: AuthViewModel
 
     companion object {
         fun newInstance(): UserFragment {
@@ -26,10 +23,13 @@ class UserFragment : androidx.fragment.app.Fragment(), UserProfileMVP.View {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidSupportInjection.inject(this)
-        super.onCreate(savedInstanceState)
+    override fun onAttach(context: Context) {
+        (activity as AuthActivity).useComponent.inject(this)
+        super.onAttach(context)
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
 
@@ -40,10 +40,6 @@ class UserFragment : androidx.fragment.app.Fragment(), UserProfileMVP.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (presenter.getProfile()?.userId != -1) {
-            tvProfileUsername.text = presenter.getProfile()?.login
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -55,15 +51,11 @@ class UserFragment : androidx.fragment.app.Fragment(), UserProfileMVP.View {
         val id = item.itemId
 
         if (id == R.id.action_sign_out) {
-            presenter.logout()
+            viewModel.logout()
             activity?.finish()
         }
 
         return super.onOptionsItemSelected(item)
-
-    }
-
-    override fun handleErrors(e: Throwable) {
 
     }
 }

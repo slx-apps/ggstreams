@@ -1,7 +1,6 @@
-package com.nlx.ggstreams.auth.login.di
+package com.nlx.ggstreams.auth
 
 import com.jakewharton.rxrelay2.PublishRelay
-import com.nlx.ggstreams.auth.user.mvp.UserProfileMVP
 import com.nlx.ggstreams.data.PreferencesUtils
 import com.nlx.ggstreams.models.AuthResponse
 import com.nlx.ggstreams.models.ChatProfile
@@ -12,7 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class AuthManager @Inject constructor(private val api: GGV1Api, private val utils: PreferencesUtils): UserProfileMVP.Model {
+class AuthManager @Inject constructor(private val api: GGV1Api, private val utils: PreferencesUtils) {
     private val profileRelay = PublishRelay.create<ChatProfile>()
 
     var profile: ChatProfile = utils.loadProfile()

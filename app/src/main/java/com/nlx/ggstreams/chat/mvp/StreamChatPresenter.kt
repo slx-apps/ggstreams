@@ -1,15 +1,12 @@
 package com.nlx.ggstreams.chat.mvp
 
-import com.nlx.ggstreams.auth.login.di.AuthManager
 import com.nlx.ggstreams.chat.GGChat
 import com.nlx.ggstreams.data.EmoteIconsRepo
-import com.nlx.ggstreams.models.GGMessage
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.stream.mvp.StreamMVP
 import com.nlx.ggstreams.utils.rx.RxUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fr_stream.*
 import javax.inject.Inject
 
 

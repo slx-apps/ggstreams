@@ -1,6 +1,6 @@
 package com.nlx.ggstreams.di.modules
 
-import com.nlx.ggstreams.auth.login.di.AuthManager
+import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.data.PreferencesUtils
 import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.rest.GGV1Api
