@@ -44,7 +44,7 @@ class StreamActivity : RxAppCompatActivity() {
 
         fragment = StreamFragment.newInstance(stream)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_root, fragment)
+        ft.replace(R.id.content_root, fragment!!)
         ft.commit()
     }
 

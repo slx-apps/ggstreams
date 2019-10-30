@@ -10,7 +10,6 @@
     tools:layout_editor_absoluteY="25dp">
 
     <android.support.design.widget.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlineBox"
         android:id="@+id/username_text_input_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +38,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_text_input_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlineBox"
         android:layout_margin="4dp"
         >
 
