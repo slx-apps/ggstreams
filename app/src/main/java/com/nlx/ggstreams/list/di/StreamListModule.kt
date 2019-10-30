@@ -30,15 +30,15 @@ abstract class StreamListModule {
 */
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideView(fragment: StreamListFragment) : StreamListMVP.View
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideStreamListPresenter(presenter: StreamListPresenter) : StreamListMVP.Presenter
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideStreamListModel(model: StreamListModel) : StreamListMVP.Model
 
 }

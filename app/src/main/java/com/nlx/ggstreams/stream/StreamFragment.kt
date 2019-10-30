@@ -27,6 +27,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.jakewharton.rxbinding2.view.RxView
+import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
@@ -107,6 +108,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
 
     companion object {
         const val TAG = "StreamFragment"
+
         fun newInstance(stream : GGStream): StreamFragment {
             val newsFragment = StreamFragment()
             val args = Bundle()
@@ -117,7 +119,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     }
 
     override fun onAttach(context: Context) {
-        //AndroidSupportInjection.inject(this)
+        (activity?.application as App).appComponent.streamComponent().create(this).inject(this)
         super.onAttach(context)
     }
 

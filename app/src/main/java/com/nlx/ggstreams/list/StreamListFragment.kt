@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.di.ViewModelFactory
 import com.nlx.ggstreams.list.adapter.StreamsAdapter
@@ -53,7 +54,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     }
 
     override fun onAttach(context: Context) {
-        //AndroidSupportInjection.inject(this)
+        (activity?.application as App).appComponent.streamListComponent().create(this).inject(this)
         super.onAttach(context)
     }
 

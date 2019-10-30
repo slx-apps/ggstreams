@@ -4,11 +4,8 @@ import android.content.Context
 import com.nlx.ggstreams.MainActivity
 import com.nlx.ggstreams.auth.di.UserSubComponent
 import com.nlx.ggstreams.di.modules.*
-import com.nlx.ggstreams.list.StreamListFragment
-import com.nlx.ggstreams.list.di.StreamListModule
-import com.nlx.ggstreams.stream.StreamFragment
-import com.nlx.ggstreams.stream.di.PlayerModule
-import com.nlx.ggstreams.stream.di.StreamModule
+import com.nlx.ggstreams.list.di.StreamListComponent
+import com.nlx.ggstreams.stream.di.StreamComponent
 import dagger.BindsInstance
 import dagger.Component
 
@@ -24,11 +21,7 @@ import dagger.Component
     RxHelperModule::class,
     ViewModelModule::class,
     DataModule::class,
-    AppSubcomponents::class,
-
-    StreamListModule::class,
-    PlayerModule::class,
-    StreamModule::class])
+    AppSubcomponents::class])
 interface AppComponent {
 
     @Component.Factory
@@ -37,9 +30,8 @@ interface AppComponent {
     }
 
     fun userComponent(): UserSubComponent.Factory
+    fun streamListComponent(): StreamListComponent.Factory
+    fun streamComponent(): StreamComponent.Factory
 
     fun inject(activity: MainActivity)
-    fun inject(fragment: StreamListFragment)
-    fun inject(fragment: StreamFragment)
-
 }

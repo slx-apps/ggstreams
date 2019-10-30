@@ -15,20 +15,20 @@ import dagger.Module
 @Module
 abstract class StreamModule {
 
-    @Binds
-    @PerApp
-    abstract fun provideStreamView(fragment: StreamFragment) : StreamMVP.StreamView
+//    @Binds
+//    @PerScreen
+//    abstract fun provideStreamView(fragment: StreamFragment) : StreamMVP.StreamView
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideStreamPresenter(presenter: StreamPresenter) : StreamMVP.Presenter
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideStreamChatPresenter(presenter: StreamChatPresenter) : StreamChatMVP.Presenter
 
     @Binds
-    @PerApp
+    @PerScreen
     abstract fun provideStreamModel(model: BaseStreamModel) : StreamMVP.Model
 
 }
