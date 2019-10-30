@@ -1,8 +1,8 @@
 package com.nlx.ggstreams.list
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.paging.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.paging.*
 import android.util.Log
 import com.nlx.ggstreams.list.data.StreamListRepository
 import com.nlx.ggstreams.models.GGStream

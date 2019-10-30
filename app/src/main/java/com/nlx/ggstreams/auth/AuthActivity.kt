@@ -3,9 +3,9 @@ package com.nlx.ggstreams.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.LoginFragment
@@ -37,7 +37,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun attachAuthFragment() {
-        val fragment: Fragment
+        val fragment: androidx.fragment.app.Fragment
         if (manager.profile.userId == -1 || TextUtils.isEmpty(manager.profile.token)) {
             fragment = LoginFragment.newInstance()
             title = getString(R.string.ft_title_login)

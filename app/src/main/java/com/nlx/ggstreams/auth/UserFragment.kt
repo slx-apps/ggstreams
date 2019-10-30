@@ -1,7 +1,7 @@
 package com.nlx.ggstreams.auth
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.*
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.di.AuthManager
@@ -11,7 +11,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fr_user.*
 import javax.inject.Inject
 
-class UserFragment : Fragment(), UserProfileMVP.View {
+class UserFragment : androidx.fragment.app.Fragment(), UserProfileMVP.View {
 
 
     @Inject
@@ -46,13 +46,13 @@ class UserFragment : Fragment(), UserProfileMVP.View {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_fr_account_info, menu)
+        inflater.inflate(R.menu.menu_fr_account_info, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item!!.itemId
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
 
         if (id == R.id.action_sign_out) {
             presenter.logout()

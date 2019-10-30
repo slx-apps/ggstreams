@@ -1,7 +1,7 @@
 package com.nlx.ggstreams
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem

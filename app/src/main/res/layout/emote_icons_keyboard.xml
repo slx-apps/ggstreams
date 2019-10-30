@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/emote_icons_tabs"
             android:layout_width="0dp"
             android:layout_height="40dp"
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0px"

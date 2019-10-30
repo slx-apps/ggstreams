@@ -1,6 +1,6 @@
 package com.nlx.ggstreams.data
 
-import android.arch.paging.PagedList
+import androidx.paging.PagedList
 import com.nlx.ggstreams.models.GGStream
 import io.reactivex.Flowable
 

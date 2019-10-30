@@ -1,6 +1,6 @@
 package com.nlx.ggstreams.di.modules
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import com.nlx.ggstreams.di.ViewModelKey
 import com.nlx.ggstreams.list.StreamListViewModel
 import dagger.Binds

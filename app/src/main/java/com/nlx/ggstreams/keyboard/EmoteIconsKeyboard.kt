@@ -2,9 +2,9 @@ package com.nlx.ggstreams.keyboard
 
 import android.app.Activity
 import android.content.Context
-import android.support.design.widget.TabLayout
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.util.Log
 import android.view.*
 import android.widget.ImageButton
@@ -58,7 +58,7 @@ class EmoteIconsKeyboard(val context: Context,
         val view = inflater.inflate(R.layout.emote_icons_keyboard, null)
 
         val tabs = view.findViewById<TabLayout>(R.id.emote_icons_tabs)
-        val pager = view.findViewById<ViewPager>(R.id.pager)
+        val pager = view.findViewById<androidx.viewpager.widget.ViewPager>(R.id.pager)
         val ibBackspace = view.findViewById<ImageButton>(R.id.ibBackspace)
 
         ibBackspace.setOnClickListener { v ->
@@ -90,7 +90,7 @@ class EmoteIconsKeyboard(val context: Context,
         return view
     }
 
-    private inner class TabPagerAdapter(private val views: List<EmoteIconsTabView>?) : PagerAdapter() {
+    private inner class TabPagerAdapter(private val views: List<EmoteIconsTabView>?) : androidx.viewpager.widget.PagerAdapter() {
 
         override fun getPageTitle(position: Int): CharSequence {
             if (position == 0) {

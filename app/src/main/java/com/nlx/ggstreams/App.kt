@@ -2,22 +2,18 @@ package com.nlx.ggstreams
 
 import android.app.Activity
 import android.app.Application
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.nlx.ggstreams.di.DaggerAppComponent
 import com.nlx.ggstreams.di.modules.AppModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class App : Application(), HasActivityInjector, HasSupportFragmentInjector {
-
+class App : Application(), HasAndroidInjector {
 
     @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
-    @Inject
-    lateinit var dispatchingSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingInjector: DispatchingAndroidInjector<Any>
 
     override fun onCreate() {
         super.onCreate()
@@ -29,13 +25,7 @@ class App : Application(), HasActivityInjector, HasSupportFragmentInjector {
                 .inject(this)
     }
 
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingActivityInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return dispatchingInjector
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return dispatchingSupportFragmentInjector
-    }
-
 }

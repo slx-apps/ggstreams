@@ -1,13 +1,13 @@
 package com.nlx.ggstreams.list.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.nlx.ggstreams.models.GGStream
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.row_stream.view.*
 
 
-class StreamViewHolder(view: View, val picasso: Picasso) : RecyclerView.ViewHolder(view) {
+class StreamViewHolder(view: View, val picasso: Picasso) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
     fun bind(stream: GGStream) {
 

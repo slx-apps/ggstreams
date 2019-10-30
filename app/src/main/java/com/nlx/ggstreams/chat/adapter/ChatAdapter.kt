@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -24,7 +24,7 @@ private val spannableFactory = Spannable.Factory.getInstance()
 
 class ChatAdapter(val context: Context,
                   private val icons: EmoteIconsRepo,
-                  private val listener: (GGMessage) -> Unit) : RecyclerView.Adapter<MessageViewHolder>() {
+                  private val listener: (GGMessage) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<MessageViewHolder>() {
 
     companion object {
         const val TAG = "ChatAdapter"

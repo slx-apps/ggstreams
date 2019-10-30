@@ -1,14 +1,14 @@
 package com.nlx.ggstreams.list
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.*
 import androidx.core.os.bundleOf
@@ -56,7 +56,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
@@ -90,12 +90,12 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
             loadStreams(true)
         }
 
-        val gridLayoutManager = GridLayoutManager(context, spans)
-        gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        val gridLayoutManager = androidx.recyclerview.widget.GridLayoutManager(context, spans)
+        gridLayoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
         rvStreamList.layoutManager = gridLayoutManager
         rvStreamList.adapter = adapter
 
-        rvStreamList.itemAnimator = DefaultItemAnimator()
+        rvStreamList.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         rvStreamList.setHasFixedSize(false)
 
         model.listLiveData().observe(this, Observer {
@@ -104,14 +104,14 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_fr_stream_list, menu)
+        inflater.inflate(R.menu.menu_fr_stream_list, menu)
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item?.itemId
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
 
         if (id == R.id.action_refresh) {
             loadStreams(true)

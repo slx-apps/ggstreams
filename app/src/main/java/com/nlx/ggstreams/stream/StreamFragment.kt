@@ -9,9 +9,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.Toolbar
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
@@ -100,7 +100,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     // Chat
     private var emoteIconsKeyboard: EmoteIconsKeyboard? = null
     private var isScrollToLast = true
-    private var linearLayoutManager: LinearLayoutManager? = null
+    private var linearLayoutManager: androidx.recyclerview.widget.LinearLayoutManager? = null
     private var targets = ArrayList<EditTextTarget>()
     private var fullScreenFlags: Int = 0
     private var normalFlags: Int = 0
@@ -124,7 +124,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
@@ -175,10 +175,10 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
         val statusBarHeight = getStatusBarHeight()
         toolbar?.setPadding(0, statusBarHeight, 0, 0)
 
-        linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, true)
         rvChat.layoutManager = linearLayoutManager
         rvChat.adapter = adapter
-        rvChat.itemAnimator = DefaultItemAnimator()
+        rvChat.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         rvChat.setHasFixedSize(false)
 
         shouldAutoPlay = true
@@ -216,13 +216,13 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
                 }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_fr_stream, menu)
+        inflater.inflate(R.menu.menu_fr_stream, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val id = item!!.itemId
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
 
         if (id == R.id.action_settings) {
             showSettings()
@@ -271,14 +271,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
     override fun onDestroyView() {
         super.onDestroyView()
         targets.clear()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-
-        if (newConfig?.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-        }
     }
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
