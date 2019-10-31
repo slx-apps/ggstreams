@@ -1,6 +1,5 @@
 package com.nlx.ggstreams.list.adapter
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.nlx.ggstreams.models.GGStream
 import com.squareup.picasso.Picasso

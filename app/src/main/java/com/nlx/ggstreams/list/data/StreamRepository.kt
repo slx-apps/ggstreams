@@ -3,7 +3,8 @@ package com.nlx.ggstreams.list.data
 import com.nlx.ggstreams.models.StreamListResponse
 import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Call
 
 interface StreamRepository {
-    fun fetchStreams(page: Int): Single<StreamListResponse>
+    fun fetchStreamsSingle(page: Int): Call<StreamListResponse>
 }

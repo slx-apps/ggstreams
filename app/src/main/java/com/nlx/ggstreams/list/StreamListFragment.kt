@@ -7,13 +7,13 @@ import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.di.ViewModelFactory
 import com.nlx.ggstreams.list.adapter.StreamsAdapter
-import com.nlx.ggstreams.list.mvp.StreamListMVP
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.stream.StreamActivity
 import com.nlx.ggstreams.stream.StreamActivity.Companion.KEY_STREAM
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 private const val TAG = "StreamListFragment"
 
-class StreamListFragment : RxFragment(), StreamListMVP.View {
+class StreamListFragment : RxFragment() {
 
     @Inject
     lateinit var picasso: Picasso
@@ -54,7 +54,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
     }
 
     override fun onAttach(context: Context) {
-        (activity?.application as App).appComponent.streamListComponent().create(this).inject(this)
+        (activity?.application as App).appComponent.streamListComponent().create().inject(this)
         super.onAttach(context)
     }
 
@@ -88,11 +88,11 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         }
 
         val gridLayoutManager = androidx.recyclerview.widget.GridLayoutManager(context, spans)
-        gridLayoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+        gridLayoutManager.orientation = LinearLayoutManager.VERTICAL
         rvStreamList.layoutManager = gridLayoutManager
         rvStreamList.adapter = adapter
 
-        rvStreamList.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+        rvStreamList.itemAnimator = DefaultItemAnimator()
         rvStreamList.setHasFixedSize(false)
 
         model.listLiveData().observe(this, Observer {
@@ -123,7 +123,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         model.invalidateList()
     }
 
-    override fun streamListLoaded(list: List<GGStream>, refresh: Boolean) {
+    fun streamListLoaded(list: List<GGStream>, refresh: Boolean) {
         Log.d(TAG, "streamListLoaded->onNext")
 
         if (refresh) {
@@ -132,7 +132,7 @@ class StreamListFragment : RxFragment(), StreamListMVP.View {
         adapter.notifyDataSetChanged()
     }
 
-    override fun handleErrors(e: Throwable) {
+    fun handleErrors(e: Throwable) {
         showError(e.localizedMessage)
     }
 

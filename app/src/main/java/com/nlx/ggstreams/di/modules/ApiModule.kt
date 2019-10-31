@@ -3,7 +3,6 @@ package com.nlx.ggstreams.di.modules
 import com.google.gson.Gson
 import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.data.PreferencesUtils
-import com.nlx.ggstreams.list.mvp.StreamListModel
 import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.rest.GGApi
 import com.nlx.ggstreams.rest.GGRestClient
@@ -22,12 +21,6 @@ class ApiModule {
     @PerApp
     fun provideEmoteIconsRepo(api: GGApi, utils: PreferencesUtils): EmoteIconsRepo {
         return EmoteIconsRepo(api, utils)
-    }
-
-    @Provides
-    @PerApp
-    fun provideStreamRepo(api: GGApi): StreamListModel {
-        return StreamListModel(api)
     }
 
     @Provides

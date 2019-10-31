@@ -17,7 +17,7 @@ interface GGApi {
 
     @Headers(GGRestClient.HEADER_API_V2_VERSION)
     @GET(GGRestClient.GOODGAME_API_V2_STREAMS)
-    fun streams(@Query("page") page: Int): Single<StreamListResponse>
+    fun getStreamList(@Query("page") page: Int): Call<StreamListResponse>
 
     @GET(GGRestClient.CHANNEL_STATUS)
     fun getStreamByName(@Query("id") id: String,

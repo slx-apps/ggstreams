@@ -1,16 +1,14 @@
 package com.nlx.ggstreams.list.di
 
-import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.di.PerScreen
-import com.nlx.ggstreams.list.StreamListFragment
-import com.nlx.ggstreams.list.mvp.StreamListMVP
-import com.nlx.ggstreams.list.mvp.StreamListModel
-import com.nlx.ggstreams.list.mvp.StreamListPresenter
-import dagger.Binds
+import com.nlx.ggstreams.list.StreamsDataSourceFactory
+import com.nlx.ggstreams.list.StreamsPageKeyedDataSource
+import com.nlx.ggstreams.list.data.StreamRepository
 import dagger.Module
+import dagger.Provides
 
 @Module
-abstract class StreamListModule {
+class StreamListModule {
 
 /*
     @Provides
@@ -27,8 +25,6 @@ abstract class StreamListModule {
     fun provideStreamListModel(api: GGApi) : StreamListMVP.Model
             = StreamListModel(api)
 
-*/
-
     @Binds
     @PerScreen
     abstract fun provideView(fragment: StreamListFragment) : StreamListMVP.View
@@ -37,8 +33,20 @@ abstract class StreamListModule {
     @PerScreen
     abstract fun provideStreamListPresenter(presenter: StreamListPresenter) : StreamListMVP.Presenter
 
-    @Binds
+
+ @Provides
     @PerScreen
-    abstract fun provideStreamListModel(model: StreamListModel) : StreamListMVP.Model
+    fun provideStreamsPageKeyedDataSource(streamRepository: StreamRepository) : StreamsPageKeyedDataSource
+            = StreamsPageKeyedDataSource(streamRepository)
+*/
+
+
+
+
+    @Provides
+    @PerScreen
+    fun provideStreamsDataSourceFactory(streamRepository: StreamRepository) : StreamsDataSourceFactory {
+        return StreamsDataSourceFactory(streamRepository)
+    }
 
 }
