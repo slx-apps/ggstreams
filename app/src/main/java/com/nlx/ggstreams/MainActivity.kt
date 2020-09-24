@@ -74,7 +74,7 @@ class MainActivity : RxAppCompatActivity() {
                 .subscribe({
                     invalidateOptionsMenu()
                 }, {
-                    Log.e(TAG, it.message)
+                    Log.e(TAG, it.message ?: getString(R.string.error_general))
                 })
     }
 

@@ -11,7 +11,7 @@ interface StreamChatMVP {
 
     interface Presenter: BasePresenter {
         fun loadIcons()
-        fun init(stream: GGStream)
+        fun init(stream: GGStream?)
         fun postMessage(newMessage: String)
         fun getStream(): String
         fun disconnect()

@@ -6,17 +6,13 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.GGStream
-import com.nlx.ggstreams.stream.StreamFragment
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
-import java.util.stream.Stream
-
-
 
 class StreamActivity : RxAppCompatActivity() {
 
     companion object {
-        val TAG = "StreamActivity"
-        val KEY_STREAM = "stream"
+        const val TAG = "StreamActivity"
+        const val KEY_STREAM = "stream"
 
         fun toIntent(context: Context, ggStream: GGStream): Intent {
             val intent = Intent(context, StreamActivity::class.java)
@@ -26,7 +22,7 @@ class StreamActivity : RxAppCompatActivity() {
         }
     }
 
-    private lateinit var stream: GGStream
+    private var stream: GGStream? = null
     private var fragment: StreamFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,14 +34,14 @@ class StreamActivity : RxAppCompatActivity() {
             stream = intent.getParcelableExtra<GGStream>(KEY_STREAM)
         }
 
-        
-        title = stream.key
+        title = stream?.key
 
-
-        fragment = StreamFragment.newInstance(stream)
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.content_root, fragment!!)
-        ft.commit()
+        stream?.let {
+            fragment = StreamFragment.newInstance(it)
+            val ft = supportFragmentManager.beginTransaction()
+            ft.replace(R.id.content_root, fragment!!)
+            ft.commit()
+        } ?: finish()
     }
 
     override fun onBackPressed() {

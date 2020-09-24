@@ -71,7 +71,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     @Inject
     lateinit var chatPresenter: StreamChatMVP.Presenter
 
-    lateinit var stream : GGStream
+    var stream : GGStream? = null
 
     // Player
     private var mainHandler: Handler? = null

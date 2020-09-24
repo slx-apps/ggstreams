@@ -14,35 +14,38 @@ class StreamChatPresenter @Inject constructor(private val chat: GGChat,
                                               private val view: StreamMVP.StreamView,
                                               private val repo: EmoteIconsRepo,
                                               private val rxUtils: RxUtils) : StreamChatMVP.Presenter {
-    private lateinit var stream: GGStream
+    private var stream: GGStream? = null
 
-    override fun getStream(): String = stream.playerSrc
+    override fun getStream(): String = stream?.playerSrc ?: ""
 
     override var compositeDisposal = CompositeDisposable()
 
-    override fun init(stream: GGStream) {
+    override fun init(stream: GGStream?) {
         this.stream = stream
 
-        compositeDisposal.add(
-                chat.messageObservable()
-                        .observeOn(rxUtils.observeScheduler)
-                        .subscribe({
-                            view.onNewMessage(it)
-                        }, {
-                            it.printStackTrace()
-                        })
-        )
+        stream?.let {
+            compositeDisposal.add(
+                    chat.messageObservable()
+                            .observeOn(rxUtils.observeScheduler)
+                            .subscribe({
+                                view.onNewMessage(it)
+                            }, {
+                                it.printStackTrace()
+                            })
+            )
 
-        compositeDisposal.add(
-                repo.iconsObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            view.emoteIconsLoaded(it)
-                        }, {
-                            it.printStackTrace()
-                        })
-        )
-        chat.joinChannel(stream.streamId)
+            compositeDisposal.add(
+                    repo.iconsObservable()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                view.emoteIconsLoaded(it)
+                            }, {
+                                it.printStackTrace()
+                            })
+            )
+            chat.joinChannel(stream.streamId)
+        }
+
     }
 
     override fun postMessage(newMessage: String) {
@@ -50,17 +53,18 @@ class StreamChatPresenter @Inject constructor(private val chat: GGChat,
     }
 
     override fun loadIcons() {
-        compositeDisposal.add(
-                repo.iconsObservable()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({
-                            view.emoteIconsLoaded(it)
-                        }, {
-                            it.printStackTrace()
-                        }))
+        stream?.let {
+            compositeDisposal.add(
+                    repo.iconsObservable()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                view.emoteIconsLoaded(it)
+                            }, {
+                                it.printStackTrace()
+                            }))
 
-        repo.loadEmoteIcons(stream.streamId.toString())
-
+            repo.loadEmoteIcons(it.streamId.toString())
+        }
     }
 
 

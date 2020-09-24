@@ -2,6 +2,7 @@ package com.nlx.ggstreams.data
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.ChatProfile
 import com.nlx.ggstreams.models.EmoteIcon
 import java.util.HashSet
@@ -30,9 +31,9 @@ class PreferencesUtils(val context: Context) {
 
     fun loadProfile(): ChatProfile {
         val chatProfile = ChatProfile()
-        chatProfile.token = preferences.getString(ACCESS_TOKEN, "")
+        chatProfile.token = preferences.getString(ACCESS_TOKEN, "") ?: ""
         chatProfile.userId = preferences.getInt(USER_ID, -1)
-        chatProfile.login = preferences.getString(LOGIN, "")
+        chatProfile.login = preferences.getString(LOGIN, "") ?: ""
 
         return chatProfile
     }
@@ -59,7 +60,7 @@ class PreferencesUtils(val context: Context) {
     }
 
     fun getRecent(): Set<String> {
-        return preferences.getStringSet(RECENT, HashSet<String>())
+        return preferences.getStringSet(RECENT, HashSet<String>()) ?: setOf()
     }
 
     var shouldAutoPlay by PreferenceFieldDelegate.Boolean("stream.autoplay")
@@ -101,7 +102,7 @@ class PreferencesUtils(val context: Context) {
         class String(key: kotlin.String) : PreferenceFieldDelegate<kotlin.String>(key) {
 
             override fun getValue(thisRef: PreferencesUtils, property: KProperty<*>)
-                    = thisRef.preferences.getString(key, "")
+                    = thisRef.preferences.getString(key, "") ?: ""
 
             override fun setValue(thisRef: PreferencesUtils, property: KProperty<*>, value: kotlin.String)
                     = thisRef.preferences.edit().putString(key, value).apply()
