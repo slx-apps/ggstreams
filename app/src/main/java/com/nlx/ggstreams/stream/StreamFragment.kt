@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.*
 import com.google.android.exoplayer2.ui.PlaybackControlView
+import com.google.android.exoplayer2.ui.PlayerControlView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -50,7 +51,7 @@ import java.net.CookiePolicy
 import java.util.*
 import javax.inject.Inject
 
-class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.VisibilityListener,
+class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.VisibilityListener,
         OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener,
         StreamMVP.StreamView {
 
@@ -271,9 +272,9 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
 
     }
 
-    override fun onTimelineChanged(timeline: Timeline, o: Any) {
-        isTimelineStatic = !timeline.isEmpty && !timeline.getWindow(timeline.windowCount - 1, window).isDynamic
-    }
+//    override fun onTimelineChanged(timeline: Timeline, o: Any) {
+//        isTimelineStatic = !timeline.isEmpty && !timeline.getWindow(timeline.windowCount - 1, window).isDynamic
+//    }
 
     override fun onTracksChanged(trackGroupArray: TrackGroupArray, trackSelectionArray: TrackSelectionArray) {
         updateButtonVisibilities()
@@ -375,7 +376,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
             val rendererFactory = DefaultRenderersFactory(context, null, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
 
 
-            player = ExoPlayerFactory.newSimpleInstance(rendererFactory, trackSelector)
+            player = ExoPlayerFactory.newSimpleInstance(context!!, trackSelector)//rendererFactory
             player?.let {
                 it.addListener(this)
                 eventLogger = EventLogger(trackSelector)
@@ -396,15 +397,16 @@ class StreamFragment : RxFragment(), Player.EventListener, PlaybackControlView.V
             }
         }
         if (playerNeedsSource) {
-            val url = GOODGAME_API_HLS + channel + ".smil"
+            val url = GOODGAME_API_HLS + channel + ".m3u8"
             Log.d(TAG, "initializePlayer: " + url)
 
-            val mediaSource = HlsMediaSource(
-                    Uri.parse(url),
-                    mediaDataSourceFactory,
-                    mainHandler,
-                    eventLogger)
+//            val mediaSource = HlsMediaSource(
+////                    Uri.parse(url),
+////                    mediaDataSourceFactory,
+////                    mainHandler,
+////                    eventLogger)
 
+            val mediaSource = HlsMediaSource.Factory(mediaDataSourceFactory).createMediaSource(Uri.parse(url))
             player?.prepare(mediaSource)//, !isTimelineStatic, !isTimelineStatic
             playerNeedsSource = false
             updateButtonVisibilities()

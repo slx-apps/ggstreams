@@ -20,6 +20,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.Surface;
 
+import androidx.annotation.Nullable;
+
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -30,10 +32,8 @@ import com.google.android.exoplayer2.RendererCapabilities;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
-import com.google.android.exoplayer2.drm.DefaultDrmSessionManager;
 import com.google.android.exoplayer2.metadata.Metadata;
 import com.google.android.exoplayer2.metadata.MetadataOutput;
-import com.google.android.exoplayer2.metadata.MetadataRenderer;
 import com.google.android.exoplayer2.metadata.emsg.EventMessage;
 import com.google.android.exoplayer2.metadata.id3.ApicFrame;
 import com.google.android.exoplayer2.metadata.id3.CommentFrame;
@@ -42,8 +42,7 @@ import com.google.android.exoplayer2.metadata.id3.Id3Frame;
 import com.google.android.exoplayer2.metadata.id3.PrivFrame;
 import com.google.android.exoplayer2.metadata.id3.TextInformationFrame;
 import com.google.android.exoplayer2.metadata.id3.UrlLinkFrame;
-import com.google.android.exoplayer2.source.AdaptiveMediaSourceEventListener;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MediaSourceEventListener;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.source.TrackGroupArray;
@@ -51,7 +50,6 @@ import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector.MappedTrackInfo;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
-import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.video.VideoRendererEventListener;
 
 import java.io.IOException;
@@ -63,7 +61,7 @@ import java.util.Locale;
  */
 public final class EventLogger implements Player.EventListener,
         AudioRendererEventListener, VideoRendererEventListener,
-        MediaSourceEventListener, DefaultDrmSessionManager.EventListener,
+        MediaSourceEventListener,
         MetadataOutput {
 
     private static final String TAG = "EventLogger";
@@ -123,7 +121,6 @@ public final class EventLogger implements Player.EventListener,
 
     }
 
-    @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
         int periodCount = timeline.getPeriodCount();
         int windowCount = timeline.getWindowCount();
@@ -306,73 +303,9 @@ public final class EventLogger implements Player.EventListener,
         Log.d(TAG, "renderedFirstFrame [" + surface + "]");
     }
 
-    // DefaultDrmSessionManager.EventListener
-
-    @Override
-    public void onDrmSessionManagerError(Exception e) {
-        printInternalError("drmSessionManagerError", e);
-    }
-
-    @Override
-    public void onDrmKeysRestored() {
-        Log.d(TAG, "drmKeysRestored [" + getSessionTimeString() + "]");
-    }
-
-    @Override
-    public void onDrmKeysRemoved() {
-        Log.d(TAG, "drmKeysRemoved [" + getSessionTimeString() + "]");
-    }
-
-    @Override
-    public void onDrmKeysLoaded() {
-        Log.d(TAG, "drmKeysLoaded [" + getSessionTimeString() + "]");
-    }
-
     // ExtractorMediaSource.EventListener
 
     // AdaptiveMediaSourceEventListener
-
-    @Override
-    public void onLoadStarted(DataSpec dataSpec, int dataType, int trackType, Format trackFormat,
-                              int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
-                              long mediaEndTimeMs, long elapsedRealtimeMs) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onLoadError(DataSpec dataSpec, int dataType, int trackType, Format trackFormat,
-                            int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
-                            long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded,
-                            IOException error, boolean wasCanceled) {
-        printInternalError("loadError", error);
-    }
-
-    @Override
-    public void onLoadCanceled(DataSpec dataSpec, int dataType, int trackType, Format trackFormat,
-                               int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
-                               long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onLoadCompleted(DataSpec dataSpec, int dataType, int trackType, Format trackFormat,
-                                int trackSelectionReason, Object trackSelectionData, long mediaStartTimeMs,
-                                long mediaEndTimeMs, long elapsedRealtimeMs, long loadDurationMs, long bytesLoaded) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onUpstreamDiscarded(int trackType, long mediaStartTimeMs, long mediaEndTimeMs) {
-        // Do nothing.
-    }
-
-    @Override
-    public void onDownstreamFormatChanged(int trackType, Format trackFormat, int trackSelectionReason,
-                                          Object trackSelectionData, long mediaTimeMs) {
-        // Do nothing.
-    }
-
-    // Internal methods
 
     private void printInternalError(String type, Exception e) {
         Log.e(TAG, "internalError [" + getSessionTimeString() + ", " + type + "]", e);
@@ -478,4 +411,48 @@ public final class EventLogger implements Player.EventListener,
         return enabled ? "[X]" : "[ ]";
     }
 
+    @Override
+    public void onMediaPeriodCreated(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+    }
+
+    @Override
+    public void onMediaPeriodReleased(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+    }
+
+    @Override
+    public void onLoadStarted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+    }
+
+    @Override
+    public void onLoadCompleted(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+    }
+
+    @Override
+    public void onLoadCanceled(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData) {
+
+    }
+
+    @Override
+    public void onLoadError(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, LoadEventInfo loadEventInfo, MediaLoadData mediaLoadData, IOException error, boolean wasCanceled) {
+
+    }
+
+    @Override
+    public void onReadingStarted(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId) {
+
+    }
+
+    @Override
+    public void onUpstreamDiscarded(int windowIndex, MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
+
+    }
+
+    @Override
+    public void onDownstreamFormatChanged(int windowIndex, @Nullable MediaSource.MediaPeriodId mediaPeriodId, MediaLoadData mediaLoadData) {
+
+    }
 }

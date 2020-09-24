@@ -39,8 +39,7 @@ class GGRestClient(client: OkHttpClient,
     companion object {
         const val GOODGAME_API_V1_ENDPOINT = "https://goodgame.ru"
         const val GOODGAME_API_V2_ENDPOINT = "https://api2.goodgame.ru"
-        const val GOODGAME_API_HLS = "https://hls.goodgame.ru/hls/"
-
+        const val GOODGAME_API_HLS = "http://hls.goodgame.ru/hls/"
         // Headers
         const val HEADER_API_V2_VERSION = "Accept: application/vnd.goodgame.v2+json"
         const val HEADER_API_V2_HAL_JSON = "Accept: application/hal+json"

@@ -41,7 +41,7 @@ public class StreamMenuDialogFragment extends BottomSheetDialogFragment implemen
     private TrackGroupArray trackGroups;
     private boolean[] trackGroupsAdaptive;
     private boolean isDisabled;
-    private MappingTrackSelector.SelectionOverride override;
+//    private MappingTrackSelector.SelectionOverride override;
 
     private CheckedTextView disableView;
     private CheckedTextView defaultView;
@@ -106,8 +106,8 @@ public class StreamMenuDialogFragment extends BottomSheetDialogFragment implemen
                     != RendererCapabilities.ADAPTIVE_NOT_SUPPORTED
                     && trackGroups.get(i).length > 1;
         }
-        isDisabled = selector.getRendererDisabled(rendererIndex);
-        override = selector.getSelectionOverride(rendererIndex, trackGroups);
+//        isDisabled = selector.getRendererDisabled(rendererIndex);
+//        override = selector.getSelectionOverride(rendererIndex, trackGroups);
     }
 
     public void setSelector(MappingTrackSelector selector) {
@@ -201,105 +201,105 @@ public class StreamMenuDialogFragment extends BottomSheetDialogFragment implemen
     }
 
     private void updateViews() {
-        disableView.setChecked(isDisabled);
-        defaultView.setChecked(!isDisabled && override == null);
-        for (int i = 0; i < trackViews.length; i++) {
-            for (int j = 0; j < trackViews[i].length; j++) {
-                trackViews[i][j].setChecked(override != null && override.groupIndex == i
-                        && override.containsTrack(j));
-            }
-        }
-        if (enableRandomAdaptationView != null) {
-            boolean enableView = !isDisabled && override != null && override.length > 1;
-            enableRandomAdaptationView.setEnabled(enableView);
-            enableRandomAdaptationView.setFocusable(enableView);
-            if (enableView) {
-                enableRandomAdaptationView.setChecked(!isDisabled
-                        && override.factory instanceof RandomTrackSelection.Factory);
-            }
-        }
+//        disableView.setChecked(isDisabled);
+//        defaultView.setChecked(!isDisabled && override == null);
+//        for (int i = 0; i < trackViews.length; i++) {
+//            for (int j = 0; j < trackViews[i].length; j++) {
+//                trackViews[i][j].setChecked(override != null && override.groupIndex == i
+//                        && override.containsTrack(j));
+//            }
+//        }
+//        if (enableRandomAdaptationView != null) {
+//            boolean enableView = !isDisabled && override != null && override.length > 1;
+//            enableRandomAdaptationView.setEnabled(enableView);
+//            enableRandomAdaptationView.setFocusable(enableView);
+//            if (enableView) {
+//                enableRandomAdaptationView.setChecked(!isDisabled
+//                        && override.factory instanceof RandomTrackSelection.Factory);
+//            }
+//        }
     }
 
     // View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        if (view == disableView) {
-            isDisabled = true;
-            override = null;
-        } else if (view == defaultView) {
-            isDisabled = false;
-            override = null;
-        } else if (view == enableRandomAdaptationView) {
-            setOverride(override.groupIndex, override.tracks, !enableRandomAdaptationView.isChecked());
-        } else {
-            isDisabled = false;
-            @SuppressWarnings("unchecked")
-            Pair<Integer, Integer> tag = (Pair<Integer, Integer>) view.getTag();
-            int groupIndex = tag.first;
-            int trackIndex = tag.second;
-            if (!trackGroupsAdaptive[groupIndex] || override == null
-                    || override.groupIndex != groupIndex) {
-                override = new MappingTrackSelector.SelectionOverride(FIXED_FACTORY, groupIndex, trackIndex);
-            } else {
-                // The group being modified is adaptive and we already have a non-null override.
-                boolean isEnabled = ((CheckedTextView) view).isChecked();
-                int overrideLength = override.length;
-                if (isEnabled) {
-                    // Remove the track from the override.
-                    if (overrideLength == 1) {
-                        // The last track is being removed, so the override becomes empty.
-                        override = null;
-                        isDisabled = true;
-                    } else {
-                        setOverride(groupIndex, getTracksRemoving(override, trackIndex),
-                                enableRandomAdaptationView.isChecked());
-                    }
-                } else {
-                    // Add the track to the override.
-                    setOverride(groupIndex, getTracksAdding(override, trackIndex),
-                            enableRandomAdaptationView.isChecked());
-                }
-            }
-        }
-        // Update the views with the new state.
-        updateViews();
-        save();
+//        if (view == disableView) {
+//            isDisabled = true;
+//            override = null;
+//        } else if (view == defaultView) {
+//            isDisabled = false;
+//            override = null;
+//        } else if (view == enableRandomAdaptationView) {
+//            setOverride(override.groupIndex, override.tracks, !enableRandomAdaptationView.isChecked());
+//        } else {
+//            isDisabled = false;
+//            @SuppressWarnings("unchecked")
+//            Pair<Integer, Integer> tag = (Pair<Integer, Integer>) view.getTag();
+//            int groupIndex = tag.first;
+//            int trackIndex = tag.second;
+//            if (!trackGroupsAdaptive[groupIndex] || override == null
+//                    || override.groupIndex != groupIndex) {
+//                override = new MappingTrackSelector.SelectionOverride(FIXED_FACTORY, groupIndex, trackIndex);
+//            } else {
+//                // The group being modified is adaptive and we already have a non-null override.
+//                boolean isEnabled = ((CheckedTextView) view).isChecked();
+//                int overrideLength = override.length;
+//                if (isEnabled) {
+//                    // Remove the track from the override.
+//                    if (overrideLength == 1) {
+//                        // The last track is being removed, so the override becomes empty.
+//                        override = null;
+//                        isDisabled = true;
+//                    } else {
+//                        setOverride(groupIndex, getTracksRemoving(override, trackIndex),
+//                                enableRandomAdaptationView.isChecked());
+//                    }
+//                } else {
+//                    // Add the track to the override.
+//                    setOverride(groupIndex, getTracksAdding(override, trackIndex),
+//                            enableRandomAdaptationView.isChecked());
+//                }
+//            }
+//        }
+//        // Update the views with the new state.
+//        updateViews();
+//        save();
     }
 
     private void save() {
-        selector.setRendererDisabled(rendererIndex, isDisabled);
-        if (override != null) {
-            selector.setSelectionOverride(rendererIndex, trackGroups, override);
-        } else {
-            selector.clearSelectionOverrides(rendererIndex);
-        }
+//        selector.setRendererDisabled(rendererIndex, isDisabled);
+//        if (override != null) {
+//            selector.setSelectionOverride(rendererIndex, trackGroups, override);
+//        } else {
+//            selector.clearSelectionOverrides(rendererIndex);
+//        }
     }
 
     private void setOverride(int group, int[] tracks, boolean enableRandomAdaptation) {
-        TrackSelection.Factory factory = tracks.length == 1 ? FIXED_FACTORY
-                : (enableRandomAdaptation ? RANDOM_FACTORY : adaptiveTrackSelectionFactory);
-        override = new MappingTrackSelector.SelectionOverride(factory, group, tracks);
+//        TrackSelection.Factory factory = tracks.length == 1 ? FIXED_FACTORY
+//                : (enableRandomAdaptation ? RANDOM_FACTORY : adaptiveTrackSelectionFactory);
+//        override = new MappingTrackSelector.SelectionOverride(factory, group, tracks);
     }
 
     // Track array manipulation.
 
-    private static int[] getTracksAdding(MappingTrackSelector.SelectionOverride override, int addedTrack) {
-        int[] tracks = override.tracks;
-        tracks = Arrays.copyOf(tracks, tracks.length + 1);
-        tracks[tracks.length - 1] = addedTrack;
-        return tracks;
-    }
+//    private static int[] getTracksAdding(MappingTrackSelector.SelectionOverride override, int addedTrack) {
+//        int[] tracks = override.tracks;
+//        tracks = Arrays.copyOf(tracks, tracks.length + 1);
+//        tracks[tracks.length - 1] = addedTrack;
+//        return tracks;
+//    }
 
-    private static int[] getTracksRemoving(MappingTrackSelector.SelectionOverride override, int removedTrack) {
-        int[] tracks = new int[override.length - 1];
-        int trackCount = 0;
-        for (int i = 0; i < tracks.length + 1; i++) {
-            int track = override.tracks[i];
-            if (track != removedTrack) {
-                tracks[trackCount++] = track;
-            }
-        }
-        return tracks;
-    }
+//    private static int[] getTracksRemoving(MappingTrackSelector.SelectionOverride override, int removedTrack) {
+//        int[] tracks = new int[override.length - 1];
+//        int trackCount = 0;
+//        for (int i = 0; i < tracks.length + 1; i++) {
+//            int track = override.tracks[i];
+//            if (track != removedTrack) {
+//                tracks[trackCount++] = track;
+//            }
+//        }
+//        return tracks;
+//    }
 }
