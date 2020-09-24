@@ -10,7 +10,7 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.File
-import com.jakewharton.picasso.OkHttp3Downloader
+import com.squareup.picasso.OkHttp3Downloader
 import com.nlx.ggstreams.di.UserAgentInterceptor
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
