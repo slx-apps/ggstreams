@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
 import kotlinx.android.synthetic.main.fr_stream.*
+import java.lang.Exception
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
@@ -492,7 +493,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         var target = EditTextTarget(start, end, etMessage, emoteIcon)
         targets.add(target)
 
-        Picasso.with(context)
+        Picasso.get()
                 .load(emoteIcon.urls.big)
 				.resize(50, 50)
                 .placeholder(R.drawable.ic_insert_emoticon)
@@ -543,7 +544,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
             message.setSpan(imageSpan, start + 1, start + icon.key.length + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 
-        override fun onBitmapFailed(errorDrawable: Drawable) {
+        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
             targets.remove(this)
         }
 

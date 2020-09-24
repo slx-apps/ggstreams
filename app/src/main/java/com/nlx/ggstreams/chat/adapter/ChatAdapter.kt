@@ -18,6 +18,7 @@ import com.nlx.ggstreams.models.GGMessage
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.row_chat_message.view.*
+import java.lang.Exception
 
 
 private val spannableFactory = Spannable.Factory.getInstance()
@@ -81,7 +82,7 @@ class ChatAdapter(val context: Context,
                 val target = EmoteIconTarget(start, end, textView, spannable)
                 targets.add(target)
 
-                Picasso.with(context)
+                Picasso.get()
                         .load(emoteIcon.urls.big)
                         .placeholder(R.drawable.ic_insert_emoticon)
                         .resize(50, 50)
@@ -129,7 +130,7 @@ class ChatAdapter(val context: Context,
 			targets.remove(this)
         }
 
-        override fun onBitmapFailed(errorDrawable: Drawable) {
+        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
             targets.remove(this)
         }
 
