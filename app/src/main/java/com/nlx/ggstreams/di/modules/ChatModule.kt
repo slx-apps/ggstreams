@@ -7,13 +7,17 @@ import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.rest.GGApi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
+import javax.inject.Singleton
 
+@InstallIn(ApplicationComponent::class)
 @Module
 class ChatModule {
 
     @Provides
-    @PerApp
+    @Singleton
     fun provideGGChat(okHttpClient: OkHttpClient, api: GGApi, gson: Gson, authManager: AuthManager): GGChat {
         return GGChat(okHttpClient, api, gson, authManager)
     }

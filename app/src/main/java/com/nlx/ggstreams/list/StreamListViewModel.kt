@@ -4,15 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.*
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import com.nlx.ggstreams.list.data.StreamListRepository
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.models.StreamListResponse
 import com.nlx.ggstreams.utils.rx.RxUtils
 import javax.inject.Inject
 
-class StreamListViewModel @Inject constructor(
+class StreamListViewModel @ViewModelInject constructor(
         private val factory: StreamsDataSourceFactory
-        ) : ViewModel() {
+) : ViewModel() {
 
     companion object {
         const val TAG = "StreamListViewModel"

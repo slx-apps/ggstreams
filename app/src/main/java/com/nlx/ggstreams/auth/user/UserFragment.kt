@@ -1,18 +1,16 @@
 package com.nlx.ggstreams.auth.user
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.auth.AuthActivity
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserFragment : Fragment() {
 
-
-    @Inject
-    lateinit var viewModel: AuthViewModel
+    private val viewModel: AuthViewModel by viewModels { defaultViewModelProviderFactory }
 
     companion object {
         fun newInstance(): UserFragment {
@@ -21,11 +19,6 @@ class UserFragment : Fragment() {
             newsFragment.arguments = args
             return newsFragment
         }
-    }
-
-    override fun onAttach(context: Context) {
-        (activity as AuthActivity).useComponent.inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,5 +1,6 @@
 package com.nlx.ggstreams.auth.user
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.data.PreferencesUtils
@@ -8,9 +9,9 @@ import com.nlx.ggstreams.utils.rx.RxUtils
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(private val preferencesUtils: PreferencesUtils,
-                                        private val model: AuthManager,
-                                        private val rxUtils: RxUtils) : ViewModel() {
+class AuthViewModel @ViewModelInject constructor(private val preferencesUtils: PreferencesUtils,
+                                                 private val model: AuthManager,
+                                                 private val rxUtils: RxUtils) : ViewModel() {
 
     fun logout() {
 

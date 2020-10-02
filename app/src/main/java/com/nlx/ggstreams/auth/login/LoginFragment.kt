@@ -1,22 +1,21 @@
 package com.nlx.ggstreams.auth.login
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.auth.AuthActivity
 import com.nlx.ggstreams.auth.user.AuthViewModel
 import com.trello.rxlifecycle2.components.support.RxFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fr_login.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginFragment : RxFragment() {
 
-    @Inject
-    lateinit var viewModel: AuthViewModel
+    private val viewModel: AuthViewModel by viewModels { defaultViewModelProviderFactory }
 
     companion object {
         const val TAG = "LoginFragment"
@@ -28,11 +27,6 @@ class LoginFragment : RxFragment() {
             loginFragment.arguments = args
             return loginFragment
         }
-    }
-
-    override fun onAttach(context: Context) {
-        (activity as AuthActivity).useComponent.inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -11,8 +11,10 @@ import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.LoginFragment
 import com.nlx.ggstreams.auth.di.UserSubComponent
 import com.nlx.ggstreams.auth.user.UserFragment
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
 
     @Inject
@@ -27,8 +29,6 @@ class AuthActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        useComponent = (application as App).appComponent.userComponent().create()
-        useComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_auth)

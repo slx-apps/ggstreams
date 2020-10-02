@@ -1,6 +1,5 @@
 package com.nlx.ggstreams.stream
 
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -15,24 +14,22 @@ import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.viewModels
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.*
-import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.google.android.exoplayer2.ui.PlayerControlView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.jakewharton.rxbinding2.view.RxView
-import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
-import com.nlx.ggstreams.chat.mvp.StreamChatMVP
 import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.keyboard.EmoteIconsKeyboard
 import com.nlx.ggstreams.keyboard.OnEmoteIconClickListener
@@ -44,14 +41,15 @@ import com.nlx.ggstreams.stream.mvp.StreamMVP
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fr_stream.*
-import java.lang.Exception
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.VisibilityListener,
         OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener,
         StreamMVP.StreamView {
@@ -67,10 +65,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     @Inject
     lateinit var cookieManager: CookieManager
 
-    @Inject
-    lateinit var streamPresenter: StreamMVP.Presenter
-    @Inject
-    lateinit var chatPresenter: StreamChatMVP.Presenter
+
+    private val viewModel: StreamViewModel by viewModels { defaultViewModelProviderFactory }
 
     var stream : GGStream? = null
 
@@ -120,11 +116,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         }
     }
 
-    override fun onAttach(context: Context) {
-        (activity?.application as App).appComponent.streamComponent().create(this).inject(this)
-        super.onAttach(context)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -138,8 +129,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         setHasOptionsMenu(true)
 
 
-        shouldAutoPlay = streamPresenter.shouldAutoPlay()
-        isScrollToLast = streamPresenter.isScrollToLast()
+        shouldAutoPlay = viewModel.shouldAutoPlay()
+        isScrollToLast = viewModel.isScrollToLast()
 
         fullScreenFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
 //                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or // bottom buttons
@@ -191,8 +182,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         playerView.setControllerVisibilityListener(this)
         playerView.requestFocus()
 
-        chatPresenter.init(stream)
-        chatPresenter.loadIcons()
+        viewModel.init(stream)
 
         if (authManager.profile.token.isNotEmpty()) {
             containerNewMessage.visibility = View.VISIBLE
@@ -202,7 +192,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                 .compose(bindToLifecycle<Any>())
                 .doAfterNext { etMessage.text.clear() }
                 .subscribe {
-                    chatPresenter.postMessage(etMessage.text.toString())
+                    viewModel.postMessage(etMessage.text.toString())
                 }
 
         RxView.clicks(ivOpenEmoteIcons)
@@ -223,7 +213,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         if (id == R.id.action_settings) {
             showSettings()
         } else if (id == R.id.action_retry) {
-            initializePlayer(chatPresenter.getStream())
+            initializePlayer(viewModel.getStream())
         } else if (id == R.id.action_fullscreen) {
             openFullscreen(isFullScreen)
         }
@@ -235,14 +225,14 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     override fun onStart() {
         super.onStart()
         if (Util.SDK_INT > 23) {
-            initializePlayer(chatPresenter.getStream())
+            initializePlayer(viewModel.getStream())
         }
     }
 
     override fun onResume() {
         super.onResume()
         if (Util.SDK_INT <= 23 || player == null) {
-            initializePlayer(chatPresenter.getStream())
+            initializePlayer(viewModel.getStream())
         }
     }
 
@@ -259,8 +249,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
             releasePlayer()
         }
 
-        chatPresenter.disconnect()
-
         emoteIconsKeyboard?.dismiss()
     }
 
@@ -270,12 +258,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     }
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
-
+        //
     }
-
-//    override fun onTimelineChanged(timeline: Timeline, o: Any) {
-//        isTimelineStatic = !timeline.isEmpty && !timeline.getWindow(timeline.windowCount - 1, window).isDynamic
-//    }
 
     override fun onTracksChanged(trackGroupArray: TrackGroupArray, trackSelectionArray: TrackSelectionArray) {
         updateButtonVisibilities()

@@ -1,5 +1,6 @@
 package com.nlx.ggstreams.di.modules
 
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import com.nlx.ggstreams.BuildConfig
@@ -14,9 +15,13 @@ import com.squareup.picasso.OkHttp3Downloader
 import com.nlx.ggstreams.di.UserAgentInterceptor
 import com.squareup.picasso.LruCache
 import com.squareup.picasso.Picasso
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.logging.HttpLoggingInterceptor
+import javax.inject.Singleton
 
 
+@InstallIn(ApplicationComponent::class)
 @Module
 class NetworkModule {
 
@@ -25,8 +30,8 @@ class NetworkModule {
     private val USER_AGENT = "CustomAndroidClient v/" + BuildConfig.VERSION_NAME
 
     @Provides
-    @PerApp
-    fun provideOkHttpClient(context: Context, userAgentInterceptor: UserAgentInterceptor): OkHttpClient {
+    @Singleton
+    fun provideOkHttpClient(context: Application, userAgentInterceptor: UserAgentInterceptor): OkHttpClient {
 
 
         // Install an HTTP cache in the application cache directory.
@@ -35,7 +40,6 @@ class NetworkModule {
 
         val builder = OkHttpClient.Builder()
                 .addInterceptor(userAgentInterceptor)
-                //.addNetworkInterceptor(new StethoInterceptor())
                 .addNetworkInterceptor(GGRestClient.provideCacheInterceptor())
                 .cache(cache)
 
@@ -49,23 +53,22 @@ class NetworkModule {
     }
 
     @Provides
-    @PerApp
-    fun providePicassoClient(context: Context, downloader: OkHttp3Downloader): Picasso {
+    @Singleton
+    fun providePicassoClient(context: Application, downloader: OkHttp3Downloader): Picasso {
         return Picasso.Builder(context)
                 .downloader(downloader)
-                //			.indicatorsEnabled(true)
                 .memoryCache(LruCache(PICASSO_MEMORY_CACHE_SIZE))
                 .build()
     }
 
     @Provides
-    @PerApp
+    @Singleton
     fun provideDownloader(okHttpClient: OkHttpClient): OkHttp3Downloader {
         return OkHttp3Downloader(okHttpClient)
     }
 
 	@Provides
-	@PerApp
+    @Singleton
 	fun provideUserAgentInterceptor() : UserAgentInterceptor {
 		return UserAgentInterceptor(USER_AGENT)
 	}

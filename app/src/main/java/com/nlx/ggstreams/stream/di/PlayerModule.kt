@@ -1,22 +1,23 @@
 package com.nlx.ggstreams.stream.di
 
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
-import com.nlx.ggstreams.di.PerApp
-import com.nlx.ggstreams.di.PerScreen
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import java.net.CookieManager
 
+@InstallIn(ApplicationComponent::class)
 @Module
 object PlayerModule {
 
     @Provides
-    @PerScreen
+//    @PerScreen
     fun provideBandwidthMeter(): DefaultBandwidthMeter = DefaultBandwidthMeter()
 
     @Provides
-    @PerScreen
+//    @PerScreen
     fun provideCookieManager(): CookieManager = CookieManager()
 
 }

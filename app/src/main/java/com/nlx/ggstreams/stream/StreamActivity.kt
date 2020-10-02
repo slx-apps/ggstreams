@@ -7,7 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.GGStream
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StreamActivity : RxAppCompatActivity() {
 
     companion object {

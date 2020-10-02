@@ -10,10 +10,12 @@ import com.nlx.ggstreams.auth.AuthManager
 import com.nlx.ggstreams.list.StreamListFragment
 import com.nlx.ggstreams.settings.AppSettingsActivity
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
 
     companion object {
@@ -24,7 +26,7 @@ class MainActivity : RxAppCompatActivity() {
     lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as App).appComponent.inject(this)
+//        (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

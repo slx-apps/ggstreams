@@ -12,12 +12,16 @@ import com.nlx.ggstreams.rest.GGSmileDeserializer
 import com.nlx.ggstreams.rest.GGStreamDeserializer
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import javax.inject.Singleton
 
+@InstallIn(ApplicationComponent::class)
 @Module
 class StorageModule {
 
     @Provides
-    @PerApp
+    @Singleton
     fun provideGson(): Gson {
         val ggSmilesType = object : TypeToken<Map<String, EmoteIcon>>() {}.type
         return GsonBuilder()

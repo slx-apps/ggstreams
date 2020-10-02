@@ -1,18 +1,14 @@
 package com.nlx.ggstreams.list
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.di.ViewModelFactory
 import com.nlx.ggstreams.list.adapter.StreamsAdapter
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.stream.StreamActivity
@@ -20,24 +16,24 @@ import com.nlx.ggstreams.stream.StreamActivity.Companion.KEY_STREAM
 import com.nlx.ggstreams.utils.rx.RxUtils
 import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.components.support.RxFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fr_stream_list.*
 import javax.inject.Inject
 
 private const val TAG = "StreamListFragment"
 
+@AndroidEntryPoint
 class StreamListFragment : RxFragment() {
 
     @Inject
     lateinit var picasso: Picasso
     @Inject
-    lateinit var factory: ViewModelFactory
-    @Inject
     lateinit var rxUtils: RxUtils
 
-    private lateinit var model: StreamListViewModel
+    private val model: StreamListViewModel by viewModels { defaultViewModelProviderFactory }
 
     private val adapter by lazy {
-        StreamsAdapter(context!!, picasso) {
+        StreamsAdapter(requireContext(), picasso) {
             val intent = Intent(activity, StreamActivity::class.java)
             intent.putExtra(KEY_STREAM, it)
             startActivity(intent)
@@ -53,11 +49,6 @@ class StreamListFragment : RxFragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        (activity?.application as App).appComponent.streamListComponent().create().inject(this)
-        super.onAttach(context)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -71,8 +62,6 @@ class StreamListFragment : RxFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        model = ViewModelProviders.of(this, factory).get(StreamListViewModel::class.java)
 
         val spans = resources.getInteger(R.integer.stream_list_spans)
 
@@ -95,7 +84,7 @@ class StreamListFragment : RxFragment() {
         rvStreamList.itemAnimator = DefaultItemAnimator()
         rvStreamList.setHasFixedSize(false)
 
-        model.listLiveData().observe(this, Observer {
+        model.listLiveData().observe(viewLifecycleOwner, {
             swipeContainer.isRefreshing = false
             adapter.submitList(it)
         })
