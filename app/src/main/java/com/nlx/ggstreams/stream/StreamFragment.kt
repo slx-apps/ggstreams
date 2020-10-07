@@ -37,7 +37,6 @@ import com.nlx.ggstreams.models.EmoteIcon
 import com.nlx.ggstreams.models.GGMessage
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.rest.GGRestClient.Companion.GOODGAME_API_HLS
-import com.nlx.ggstreams.stream.mvp.StreamMVP
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
@@ -51,8 +50,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.VisibilityListener,
-        OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener,
-        StreamMVP.StreamView {
+        OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener {
 
     @Inject
     lateinit var repo: EmoteIconsRepo
@@ -99,7 +97,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     private var isFullScreen = true
 
     private val adapter: ChatAdapter by lazy  {
-        ChatAdapter(context!!, repo) {
+        ChatAdapter(requireContext(), repo) {
             etMessage.text.append(it.userName + ", ")
         }
     }
@@ -358,10 +356,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
             trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
 
-            val rendererFactory = DefaultRenderersFactory(context, null, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
-
-
-            player = ExoPlayerFactory.newSimpleInstance(context!!, trackSelector)//rendererFactory
+            player = ExoPlayerFactory.newSimpleInstance(requireContext(), trackSelector)//rendererFactory
             player?.let {
                 it.addListener(this)
                 eventLogger = EventLogger(trackSelector)
@@ -485,7 +480,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     }
 
     private fun createKeyboard() {
-        emoteIconsKeyboard = EmoteIconsKeyboard(context!!,
+        emoteIconsKeyboard = EmoteIconsKeyboard(requireContext(),
                 contentRoot, this@StreamFragment, repo, picasso)
         emoteIconsKeyboard?.let {
             it.onEmoteIconClickListener = this
@@ -548,15 +543,11 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         return result
     }
 
-    override fun handleErrors(e: Throwable) {
-        //
-    }
-
-    override fun emoteIconsLoaded(icons: Map<String, EmoteIcon>) {
+    fun emoteIconsLoaded(icons: Map<String, EmoteIcon>) {
         createKeyboard()
     }
 
-    override fun onNewMessage(message: GGMessage) {
+    fun onNewMessage(message: GGMessage) {
         adapter.addMessage(message)
         scrollToBottom()
     }

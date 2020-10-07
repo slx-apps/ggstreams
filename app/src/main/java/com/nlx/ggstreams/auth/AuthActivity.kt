@@ -6,10 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
-import com.nlx.ggstreams.App
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.auth.login.LoginFragment
-import com.nlx.ggstreams.auth.di.UserSubComponent
 import com.nlx.ggstreams.auth.user.UserFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -19,8 +17,6 @@ class AuthActivity : AppCompatActivity() {
 
     @Inject
     lateinit var manager: AuthManager
-
-    lateinit var useComponent: UserSubComponent
 
     companion object {
         fun start(context: Context) {

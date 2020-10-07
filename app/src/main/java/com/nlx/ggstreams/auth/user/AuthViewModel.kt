@@ -14,7 +14,7 @@ class AuthViewModel @ViewModelInject constructor(private val preferencesUtils: P
                                                  private val rxUtils: RxUtils) : ViewModel() {
 
     fun logout() {
-
+        //
     }
 
     var compositeDisposal =  CompositeDisposable()
