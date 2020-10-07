@@ -4,7 +4,7 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.nlx.ggstreams.auth.AuthManager
+import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.models.*
 import com.nlx.ggstreams.rest.GGApi
 import io.reactivex.BackpressureStrategy

@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import com.nlx.ggstreams.AutofitRecyclerView
+import com.nlx.ggstreams.ui.AutofitRecyclerView
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.keyboard.EmoteIconsAdapter
 import com.nlx.ggstreams.models.EmoteIcon
 import com.squareup.picasso.Picasso
 

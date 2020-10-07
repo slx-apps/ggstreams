@@ -2,7 +2,7 @@ package com.nlx.ggstreams.di.modules
 
 import com.google.gson.Gson
 import com.nlx.ggstreams.chat.GGChat
-import com.nlx.ggstreams.auth.AuthManager
+import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.rest.GGApi
 import dagger.Module

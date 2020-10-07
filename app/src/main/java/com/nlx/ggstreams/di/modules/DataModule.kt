@@ -1,8 +1,8 @@
 package com.nlx.ggstreams.di.modules
 
 import com.nlx.ggstreams.di.PerApp
-import com.nlx.ggstreams.list.data.StreamListRepository
-import com.nlx.ggstreams.list.data.StreamRepository
+import com.nlx.ggstreams.ui.list.data.StreamListRepository
+import com.nlx.ggstreams.ui.list.data.StreamRepository
 import com.nlx.ggstreams.rest.GGApi
 import dagger.Module
 import dagger.Provides

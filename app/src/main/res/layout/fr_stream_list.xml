@@ -4,7 +4,7 @@
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nlx.ggstreams.list.StreamListFragment">
+    tools:context="com.nlx.ggstreams.ui.list.StreamListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStreamList"

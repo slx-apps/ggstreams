@@ -1,6 +1,6 @@
 package com.nlx.ggstreams.di.modules
 
-import com.nlx.ggstreams.auth.AuthManager
+import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.data.PreferencesUtils
 import com.nlx.ggstreams.rest.GGV1Api
 import dagger.Module
