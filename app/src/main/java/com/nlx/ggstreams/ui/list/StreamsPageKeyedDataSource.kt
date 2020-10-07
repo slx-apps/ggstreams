@@ -2,10 +2,8 @@ package com.nlx.ggstreams.ui.list
 
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
-import com.nlx.ggstreams.ui.list.data.StreamRepository
 import com.nlx.ggstreams.models.GGStream
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.nlx.ggstreams.ui.list.data.StreamRepository
 import javax.inject.Inject
 
 class StreamsPageKeyedDataSource @Inject constructor(
