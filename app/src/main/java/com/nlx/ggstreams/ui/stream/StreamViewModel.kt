@@ -70,7 +70,6 @@ class StreamViewModel @ViewModelInject constructor(private val preferencesUtils:
         chat.postMessage(newMessage)
     }
 
-
     private fun disconnect() {
         chat.disconnect()
     }

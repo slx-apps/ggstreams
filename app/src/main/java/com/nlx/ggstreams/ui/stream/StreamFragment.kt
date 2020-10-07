@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
@@ -63,19 +64,17 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     @Inject
     lateinit var cookieManager: CookieManager
 
-
     private val viewModel: StreamViewModel by viewModels { defaultViewModelProviderFactory }
 
     var stream : GGStream? = null
 
     // Player
-    private var mainHandler: Handler? = null
     private var window: Timeline.Window? = null
-    //
+
     private var eventLogger: EventLogger? = null
     private var videoTrackSelectionFactory: TrackSelection.Factory? = null
     private var mediaDataSourceFactory: DataSource.Factory? = null
-    //
+
     private var player: SimpleExoPlayer? = null
     private var trackSelector: DefaultTrackSelector? = null
     private var playerNeedsSource: Boolean = false
@@ -84,7 +83,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     private var isTimelineStatic: Boolean = false
     private var playerWindow: Int = 0
     private var playerPosition: Long = 0
-    //
 
     // Chat
     private var emoteIconsKeyboard: EmoteIconsKeyboard? = null
@@ -131,14 +129,11 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         isScrollToLast = viewModel.isScrollToLast()
 
         fullScreenFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-//                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or // bottom buttons
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                 View.SYSTEM_UI_FLAG_FULLSCREEN or
-                View.SYSTEM_UI_FLAG_IMMERSIVE//_STICKY
+                View.SYSTEM_UI_FLAG_IMMERSIVE
 
         normalFlags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
     }
 
@@ -168,7 +163,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
         shouldAutoPlay = true
         mediaDataSourceFactory = DefaultDataSourceFactory(activity, "f")
-        mainHandler = Handler()
+
         window = Timeline.Window()
 
         if (CookieHandler.getDefault() !== cookieManager) {
@@ -198,6 +193,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                 .subscribe {
                     showKeyboard()
                 }
+
+        viewModel
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -314,9 +311,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                 }
             }
         }
-        if (errorString != null) {
-            //showToast(errorString);
-        }
+
         playerNeedsSource = true
         updateButtonVisibilities()
     }
@@ -380,21 +375,11 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
             val url = GOODGAME_API_HLS + channel + ".m3u8"
             Log.d(TAG, "initializePlayer: " + url)
 
-//            val mediaSource = HlsMediaSource(
-////                    Uri.parse(url),
-////                    mediaDataSourceFactory,
-////                    mainHandler,
-////                    eventLogger)
-
             val mediaSource = HlsMediaSource.Factory(mediaDataSourceFactory).createMediaSource(Uri.parse(url))
             player?.prepare(mediaSource)//, !isTimelineStatic, !isTimelineStatic
             playerNeedsSource = false
             updateButtonVisibilities()
         }
-    }
-
-    private fun addToFavorites() {
-        Toast.makeText(context, "action_add_fav", Toast.LENGTH_SHORT).show()
     }
 
     private fun openFullscreen(fullScreen: Boolean) {

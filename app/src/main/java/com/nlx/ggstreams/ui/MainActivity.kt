@@ -27,7 +27,6 @@ class MainActivity : RxAppCompatActivity() {
     lateinit var authManager: AuthManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        (application as App).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
