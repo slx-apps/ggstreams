@@ -1,10 +1,7 @@
 package com.nlx.ggstreams.di.modules
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import com.nlx.ggstreams.BuildConfig
-import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.rest.GGRestClient
 import dagger.Module
 import dagger.Provides

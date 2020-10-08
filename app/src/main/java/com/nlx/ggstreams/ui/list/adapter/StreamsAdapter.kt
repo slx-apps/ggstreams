@@ -1,11 +1,10 @@
 package com.nlx.ggstreams.ui.list.adapter
 
-import androidx.paging.PagedListAdapter
 import android.content.Context
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.GGStream
 import com.squareup.picasso.Picasso
@@ -13,7 +12,7 @@ import com.squareup.picasso.Picasso
 class StreamsAdapter (val context: Context,
                       val picasso: Picasso,
                       private val onClickListener: (GGStream) -> Unit
-                      ) : PagedListAdapter<GGStream, StreamViewHolder>(STREAMS_DIFF_CALLBACK) {
+                      ) : PagingDataAdapter<GGStream, StreamViewHolder>(STREAMS_DIFF_CALLBACK) {
 
     companion object {
 

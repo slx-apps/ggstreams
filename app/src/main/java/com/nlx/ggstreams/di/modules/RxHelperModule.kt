@@ -1,6 +1,5 @@
 package com.nlx.ggstreams.di.modules
 
-import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.utils.rx.BaseRxUtils
 import com.nlx.ggstreams.utils.rx.RxUtils
 import dagger.Module

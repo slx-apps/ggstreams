@@ -4,7 +4,8 @@ import com.nlx.ggstreams.models.StreamListResponse
 import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Call
+import retrofit2.Response
 
 interface StreamRepository {
-    fun fetchStreamsSingle(page: Int): Call<StreamListResponse>
+    suspend fun fetchStreamsSingle(page: Int): Response<StreamListResponse>
 }

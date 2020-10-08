@@ -1,33 +1,63 @@
 package com.nlx.ggstreams.ui.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.paging.*
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import com.nlx.ggstreams.ui.list.data.StreamListRepository
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.nlx.ggstreams.models.GGStream
-import com.nlx.ggstreams.models.StreamListResponse
-import com.nlx.ggstreams.utils.rx.RxUtils
+import com.nlx.ggstreams.ui.list.data.StreamRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class StreamListViewModel @ViewModelInject constructor(
-        private val factory: StreamsDataSourceFactory
+        private val streamRepository: StreamRepository
 ) : ViewModel() {
 
     companion object {
         const val TAG = "StreamListViewModel"
-        const val PAGING_LIMIT = 25
+        const val PAGING_LIMIT = 10
     }
 
-    private var listLiveData: LiveData<PagedList<GGStream>> = LivePagedListBuilder(
-            factory,
-            PAGING_LIMIT
-    ).build()
+    private lateinit var pager: Pager<String, GGStream>
+    private lateinit var ds: StreamsPageKeyedDataSource
+    private lateinit var flow: Flow<PagingData<GGStream>>
 
-    fun listLiveData(): LiveData<PagedList<GGStream>> = listLiveData
+    init {
+        createPagingFlow()
+    }
+
+    fun listLiveData(): Flow<PagingData<GGStream>> = flow
 
     fun invalidateList() {
-        factory.dataSource.invalidate()
+        Log.d(TAG, "invalidateList: ")
+        ds.invalidate()
+    }
+
+    private fun createPagingFlow() {
+        Log.d(TAG, "createPagingFlow: ")
+        pager = Pager(PagingConfig(pageSize = PAGING_LIMIT)) {
+            StreamsPageKeyedDataSource(streamRepository).also {
+               ds = it
+            }
+        }
+        flow = pager.flow
+        .cachedIn(viewModelScope)
+    }
+
+    /*
+     @Inject constructor(val streamRepository: StreamRepository
+    )
+     */
+    inner class StreamsDataSourceFactory  {//
+
+        lateinit var dataSource: StreamsPageKeyedDataSource
+
+        fun create(): PagingSource<String, GGStream> {
+            dataSource = StreamsPageKeyedDataSource(streamRepository)
+            return dataSource
+        }
+
     }
 }
+

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,8 @@ import com.squareup.picasso.Picasso
 import com.trello.rxlifecycle2.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fr_stream_list.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "StreamListFragment"
@@ -84,10 +87,12 @@ class StreamListFragment : RxFragment() {
         rvStreamList.itemAnimator = DefaultItemAnimator()
         rvStreamList.setHasFixedSize(false)
 
-        model.listLiveData().observe(viewLifecycleOwner, {
-            swipeContainer.isRefreshing = false
-            adapter.submitList(it)
-        })
+        lifecycleScope.launch {
+            model.listLiveData().collectLatest { pagingData ->
+                swipeContainer.isRefreshing = false
+                adapter.submitData(pagingData)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -110,15 +115,6 @@ class StreamListFragment : RxFragment() {
         swipeContainer.isRefreshing = refresh
 
         model.invalidateList()
-    }
-
-    fun streamListLoaded(list: List<GGStream>, refresh: Boolean) {
-        Log.d(TAG, "streamListLoaded->onNext")
-
-        if (refresh) {
-            swipeContainer.isRefreshing = false
-        }
-        adapter.notifyDataSetChanged()
     }
 
     fun handleErrors(e: Throwable) {

@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.nlx.ggstreams.StreamListDeserializer
-import com.nlx.ggstreams.di.PerApp
 import com.nlx.ggstreams.models.EmoteIcon
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.models.StreamListResponse
