@@ -35,7 +35,7 @@ class AuthManager @Inject constructor(private val api: GGV1Api, private val util
         return profileRelay.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    fun saveProfile(profile: ChatProfile) {
+    private fun saveProfile(profile: ChatProfile) {
         utils.saveProfile(profile)
     }
 

@@ -52,8 +52,4 @@ public class GGSmileDeserializer implements JsonDeserializer<Map<String, EmoteIc
 
         return smileys;
     }
-
-    public static String buildKeyString(String key) {
-        return PATTERN_COLUMN + key + PATTERN_COLUMN;
-    }
 }

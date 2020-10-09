@@ -40,8 +40,7 @@ class EmoteIconsRepo(val api: GGApi, val utils: PreferencesUtils) {
     }
 
     fun loadEmoteIcons(channelId: String) {
-        this.channelId = channelId// TODO remove state
-        Log.d(TAG, "loadEmoteIcons")
+        this.channelId = channelId
 
         if (!emoteIconsLoaded) {
             getPagedEmoteIcons(1)

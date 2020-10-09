@@ -38,6 +38,7 @@ import com.nlx.ggstreams.models.EmoteIcon
 import com.nlx.ggstreams.models.GGMessage
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.rest.GGRestClient.Companion.GOODGAME_API_HLS
+import com.nlx.ggstreams.utils.extensions.toast
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
@@ -262,17 +263,13 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         if (mappedTrackInfo != null) {
             if (mappedTrackInfo.getTrackTypeRendererSupport(C.TRACK_TYPE_VIDEO) ==
                     MappingTrackSelector.MappedTrackInfo.RENDERER_SUPPORT_UNSUPPORTED_TRACKS) {
-                showToast(R.string.error_unsupported_video)
+                requireContext().toast(R.string.error_unsupported_video)
             }
             if (mappedTrackInfo.getTrackTypeRendererSupport(C.TRACK_TYPE_AUDIO) ==
                     MappingTrackSelector.MappedTrackInfo.RENDERER_SUPPORT_UNSUPPORTED_TRACKS) {
-                showToast(R.string.error_unsupported_audio)
+                requireContext().toast(R.string.error_unsupported_audio)
             }
         }
-    }
-
-    private fun showToast(res: Int) {
-        Toast.makeText(context, res, Toast.LENGTH_SHORT).show()
     }
 
     override fun onLoadingChanged(b: Boolean) {
@@ -310,6 +307,10 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                             decoderInitializationException.decoderName)
                 }
             }
+        }
+
+        errorString?.let {
+            requireContext().toast(it)
         }
 
         playerNeedsSource = true

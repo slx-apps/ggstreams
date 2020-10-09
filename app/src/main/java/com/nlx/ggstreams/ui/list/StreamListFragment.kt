@@ -2,7 +2,6 @@ package com.nlx.ggstreams.ui.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.ui.list.adapter.StreamsAdapter
-import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.ui.stream.StreamActivity
 import com.nlx.ggstreams.ui.stream.StreamActivity.Companion.KEY_STREAM
 import com.nlx.ggstreams.utils.rx.RxUtils
@@ -23,15 +21,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "StreamListFragment"
-
 @AndroidEntryPoint
 class StreamListFragment : RxFragment() {
 
     @Inject
     lateinit var picasso: Picasso
-    @Inject
-    lateinit var rxUtils: RxUtils
 
     private val model: StreamListViewModel by viewModels { defaultViewModelProviderFactory }
 
@@ -59,8 +53,7 @@ class StreamListFragment : RxFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fr_stream_list, container, false)
-        return view
+        return inflater.inflate(R.layout.fr_stream_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +69,7 @@ class StreamListFragment : RxFragment() {
 
 
         swipeContainer.setOnRefreshListener {
-            loadStreams(true)
+            loadStreams()
         }
 
         val gridLayoutManager = androidx.recyclerview.widget.GridLayoutManager(context, spans)
@@ -105,14 +98,14 @@ class StreamListFragment : RxFragment() {
         val id = item.itemId
 
         if (id == R.id.action_refresh) {
-            loadStreams(true)
+            loadStreams()
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadStreams(refresh: Boolean) {
-        swipeContainer.isRefreshing = refresh
+    private fun loadStreams() {
+        swipeContainer.isRefreshing = true
 
         model.invalidateList()
     }
@@ -124,7 +117,7 @@ class StreamListFragment : RxFragment() {
     private fun showError(message: String) {
         Snackbar.make(swipeContainer, message, Snackbar.LENGTH_LONG)
                 .setAction(R.string.reload) {
-                    loadStreams(true)
+                    loadStreams()
                 }
                 .show()
     }

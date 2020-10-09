@@ -20,7 +20,7 @@ class GGChat(private val client: OkHttpClient,
              private val manager: AuthManager
     ) : WebSocketListener() {
 
-    private val parser: JsonParser = JsonParser ()
+    private val parser: JsonParser = JsonParser()
     private var channelId = -1
 
     private val chatMessagePublishSubject : PublishSubject<GGMessage> = PublishSubject.create<GGMessage>()
@@ -66,7 +66,7 @@ class GGChat(private val client: OkHttpClient,
 
             when (messageType) {
                 CHAT_TYPE_WELCOME -> {
-                    //val helloResponse = gson.fromJson(data, HelloResponse::class.java)
+                    //
                 }
 
                 CHAT_TYPE_CHANNEL_COUNTERS -> {
@@ -80,7 +80,7 @@ class GGChat(private val client: OkHttpClient,
                 }
 
                 CHAT_TYPE_SUCCESS_JOIN -> {
-                    //val join = gson.fromJson(data, SuccessJoinResponse::class.java)
+                    //
                 }
 
                 CHAT_TYPE_SUCCESS_AUTH -> {
@@ -105,9 +105,6 @@ class GGChat(private val client: OkHttpClient,
     }
 
     private fun connect() {
-//        if (isConnected()) {
-//            leaveChannel()
-//        }
         if (channelId > -1) {
             Log.d(TAG, "connect")
 
@@ -143,8 +140,6 @@ class GGChat(private val client: OkHttpClient,
             val postMessage = PostMessage(channelId, message, CHAT_TYPE_SEND_MESSAGE)
             val dataContainer = DataContainer(CHAT_TYPE_SEND_MESSAGE, postMessage)
             webSocket?.send(gson.toJson(dataContainer))
-        } else {
-
         }
     }
 

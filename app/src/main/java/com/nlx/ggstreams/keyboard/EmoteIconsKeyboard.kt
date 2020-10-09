@@ -27,7 +27,7 @@ class EmoteIconsKeyboard(val context: Context,
 
     private var isOpened = false
 
-    var onSmileBackspaceClickListener: EmoteIconsKeyboard.OnIconRemoveClickListener? = null
+    var onSmileBackspaceClickListener: OnIconRemoveClickListener? = null
     private var onSoftKeyboardOpenCloseListener: OnSoftKeyboardOpenCloseListener? = null
 
 

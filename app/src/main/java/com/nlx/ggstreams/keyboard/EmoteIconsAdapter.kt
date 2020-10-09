@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_emote_icon.view.*
 
 class EmoteIconsAdapter(val context: Context,
                         val list: List<EmoteIcon>,
-                        val picasso: Picasso) : androidx.recyclerview.widget.RecyclerView.Adapter<EmoteIconViewHolder>() {
+                        val picasso: Picasso) : RecyclerView.Adapter<EmoteIconViewHolder>() {
 
     var listener: OnEmoteIconClickListener? = null
 
