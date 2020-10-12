@@ -60,8 +60,8 @@ kapt {
 
 ext {
     dagger_version = "2.28-alpha"
-    rxjava_version = "2.1.0"
-    rxandroid_version = "2.0.1"
+    rxjava_version = "2.2.16"
+    rxandroid_version = "2.1.1"
     rxlifecycle_version = "2.2.1"
     rxbinding_version = "2.0.0"
     rxrelay_version = "2.0.0"

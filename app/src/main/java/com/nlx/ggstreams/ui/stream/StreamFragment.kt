@@ -183,19 +183,25 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         }
 
         RxView.clicks(ivSend)
-                .compose(bindToLifecycle<Any>())
+                .compose(bindToLifecycle())
                 .doAfterNext { etMessage.text.clear() }
                 .subscribe {
                     viewModel.postMessage(etMessage.text.toString())
                 }
 
         RxView.clicks(ivOpenEmoteIcons)
-                .compose(bindToLifecycle<Any>())
+                .compose(bindToLifecycle())
                 .subscribe {
                     showKeyboard()
                 }
 
-        viewModel
+        viewModel.observeIcons().observe(viewLifecycleOwner) {
+            emoteIconsLoaded(it)
+        }
+
+        viewModel.observeMessages().observe(viewLifecycleOwner) {
+            onNewMessage(it)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

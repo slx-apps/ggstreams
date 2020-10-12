@@ -13,6 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.*
 import okhttp3.Response
+import okio.ByteString
 
 class GGChat(private val client: OkHttpClient,
              val api: GGApi,
@@ -38,23 +39,25 @@ class GGChat(private val client: OkHttpClient,
             connect()
         }
 
-        manager.profileObservable()
-               .subscribe { chatProfile -> login(chatProfile) }
+        val disposable = manager.profileObservable()
+                .subscribe { chatProfile -> login(chatProfile) }
+
+        subscriptions.add(disposable)
 
         login(manager.profile)
     }
 
-    override fun onOpen(webSocket: WebSocket?, response: Response?) {
+    override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
-        Log.d(TAG, "onOpen")
 
         val dataContainer = DataContainer(CHAT_TYPE_JOIN, PostMessage(channelId, null, CHAT_TYPE_JOIN))
 
-        webSocket?.send(gson.toJson(dataContainer))
+        webSocket.send(gson.toJson(dataContainer))
     }
 
-    override fun onMessage(webSocket: WebSocket?, text: String?) {
+    override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
+
         Log.d(TAG, "received message: $text")
 
         val messageObject = parser.parse(text).asJsonObject
@@ -92,16 +95,16 @@ class GGChat(private val client: OkHttpClient,
         }
     }
 
-    override fun onClosing(webSocket: WebSocket?, code: Int, reason: String?) {
+    override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
 
-        webSocket?.close(1000, null)
+        webSocket.close(1000, null)
         Log.d(TAG, "closed with exit code $code additional info: $reason")
     }
 
-    override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: Response?) {
+    override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         super.onFailure(webSocket, t, response)
-        t?.printStackTrace()
+        t.printStackTrace()
     }
 
     private fun connect() {

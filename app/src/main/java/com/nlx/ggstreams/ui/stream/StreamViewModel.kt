@@ -1,6 +1,7 @@
 package com.nlx.ggstreams.ui.stream
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nlx.ggstreams.ui.auth.AuthManager
@@ -27,6 +28,9 @@ class StreamViewModel @ViewModelInject constructor(private val preferencesUtils:
 
     private val _iconsLiveData = MutableLiveData<Map<String, EmoteIcon>>()
     private val _messagesLiveData = MutableLiveData<GGMessage>()
+
+    fun observeIcons(): LiveData<Map<String, EmoteIcon>> = _iconsLiveData
+    fun observeMessages(): LiveData<GGMessage> = _messagesLiveData
 
     fun init(stream: GGStream?) {
         this.stream = stream
