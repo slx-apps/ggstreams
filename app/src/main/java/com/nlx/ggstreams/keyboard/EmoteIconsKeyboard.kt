@@ -18,6 +18,7 @@ import com.nlx.ggstreams.models.EmoteIcon
 import java.lang.ref.WeakReference
 import java.util.ArrayList
 import com.squareup.picasso.Picasso
+import timber.log.Timber
 
 class EmoteIconsKeyboard(val context: Context,
                          val contentRoot: View,
@@ -74,7 +75,7 @@ class EmoteIconsKeyboard(val context: Context,
         emoteIcons.addAll(repo.getEmoteIconsList())
         recent.addAll(repo.getRecent())
 
-        Log.d(TAG, "createView: " + emoteIcons.size)
+        Timber.d("createView: " + emoteIcons.size)
 
         views.add(EmoteIconsTabView(context, emoteIcons, this@EmoteIconsKeyboard, picasso))
         views.add(EmoteIconsTabView(context, recent, this@EmoteIconsKeyboard, picasso))

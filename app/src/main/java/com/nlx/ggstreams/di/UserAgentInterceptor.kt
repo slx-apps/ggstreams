@@ -3,6 +3,7 @@ package com.nlx.ggstreams.di
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
+import kotlin.jvm.Throws
 
 class UserAgentInterceptor(private val userAgent: String) : Interceptor {
 

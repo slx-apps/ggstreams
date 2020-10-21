@@ -43,6 +43,7 @@ import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fr_stream.*
+import timber.log.Timber
 import java.net.CookieHandler
 import java.net.CookieManager
 import java.net.CookiePolicy
@@ -338,7 +339,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
     private fun initializePlayer(channel: String?) {
         if (channel == null) {
-            Log.e(TAG, "initializePlayer: channel is null")
+            Timber.d("initializePlayer: channel is null")
             return
         }
         if (player == null) {
@@ -368,7 +369,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         }
         if (playerNeedsSource) {
             val url = GOODGAME_API_HLS + channel + ".m3u8"
-            Log.d(TAG, "initializePlayer: " + url)
+            Timber.d("initializePlayer: " + url)
 
             val mediaSource = HlsMediaSource.Factory(mediaDataSourceFactory).createMediaSource(Uri.parse(url))
             player?.prepare(mediaSource)//, !isTimelineStatic, !isTimelineStatic

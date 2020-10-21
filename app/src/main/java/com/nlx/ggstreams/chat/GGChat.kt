@@ -12,6 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.*
 import okhttp3.Response
+import timber.log.Timber
 
 class GGChat(private val client: OkHttpClient,
              val api: GGApi,
@@ -29,7 +30,7 @@ class GGChat(private val client: OkHttpClient,
 
 
     fun joinChannel(channel: Int) {
-        Log.d(TAG, "joinChannel: $channel")
+        Timber.d("joinChannel: $channel")
 
         channelId = channel
         if (channelId >= 0) {
@@ -48,7 +49,7 @@ class GGChat(private val client: OkHttpClient,
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
 
-        Log.d(TAG, "received message: $text")
+        Timber.d("received message: $text")
 
         val messageObject = parser.parse(text).asJsonObject
 
@@ -80,7 +81,7 @@ class GGChat(private val client: OkHttpClient,
 
                 }
 
-                else -> Log.e(TAG, "No such message type $messageType")
+                else -> Timber.e("No such message type $messageType")
             }
         }
     }
@@ -89,7 +90,7 @@ class GGChat(private val client: OkHttpClient,
         super.onClosing(webSocket, code, reason)
 
         webSocket.close(1000, null)
-        Log.d(TAG, "closed with exit code $code additional info: $reason")
+        Timber.d("closed with exit code $code additional info: $reason")
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -99,7 +100,7 @@ class GGChat(private val client: OkHttpClient,
 
     private fun connect() {
         if (channelId > -1) {
-            Log.d(TAG, "connect")
+            Timber.d("connect")
 
             val request = Request.Builder()
                     .url(CHAT_WS_URL)
@@ -107,7 +108,7 @@ class GGChat(private val client: OkHttpClient,
 
             webSocket = client.newWebSocket(request, this)
         } else {
-            Log.e(TAG, "connect: channelId does not exists")
+            Timber.e("connect: channelId does not exists")
         }
     }
 
@@ -117,11 +118,11 @@ class GGChat(private val client: OkHttpClient,
 
     private fun login(chatProfile: ChatProfile) {
         if (chatProfile.userId == -1 || TextUtils.isEmpty(chatProfile.token)) {
-            Log.e(TAG, "attachAuthFragment: profile is empty")
+            Timber.e("attachAuthFragment: profile is empty")
             return
         }
 
-        Log.d(TAG, "login: $chatProfile")
+        Timber.d("login: $chatProfile")
 
         val dataContainer = DataContainer(CHAT_TYPE_AUTH, AuthRequest(chatProfile.userId, chatProfile.token))
 
