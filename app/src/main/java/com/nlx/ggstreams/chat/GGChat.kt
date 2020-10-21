@@ -4,7 +4,6 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.models.*
 import com.nlx.ggstreams.rest.GGApi
 import io.reactivex.BackpressureStrategy
@@ -13,12 +12,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.*
 import okhttp3.Response
-import okio.ByteString
 
 class GGChat(private val client: OkHttpClient,
              val api: GGApi,
-             private val gson: Gson,
-             private val manager: AuthManager
+             private val gson: Gson
     ) : WebSocketListener() {
 
     private val parser: JsonParser = JsonParser()
@@ -38,13 +35,6 @@ class GGChat(private val client: OkHttpClient,
         if (channelId >= 0) {
             connect()
         }
-
-        val disposable = manager.profileObservable()
-                .subscribe { chatProfile -> login(chatProfile) }
-
-        subscriptions.add(disposable)
-
-        login(manager.profile)
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {

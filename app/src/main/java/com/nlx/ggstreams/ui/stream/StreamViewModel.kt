@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.chat.GGChat
 import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.data.PreferencesUtils
@@ -16,7 +15,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 class StreamViewModel @ViewModelInject constructor(private val preferencesUtils: PreferencesUtils,
-                                                   private val model: AuthManager,
                                                    private val repo: EmoteIconsRepo,
                                                    private val chat: GGChat,
                                                    private val rxUtils: RxUtils) : ViewModel() {

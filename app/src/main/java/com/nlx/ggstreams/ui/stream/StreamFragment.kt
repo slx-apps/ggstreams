@@ -6,8 +6,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.util.Log
@@ -30,7 +28,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.jakewharton.rxbinding2.view.RxView
 import com.nlx.ggstreams.R
-import com.nlx.ggstreams.ui.auth.AuthManager
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
 import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.keyboard.EmoteIconsKeyboard
@@ -60,8 +57,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
     @Inject
     lateinit var repo: EmoteIconsRepo
-    @Inject
-    lateinit var authManager: AuthManager
     @Inject
     lateinit var picasso: Picasso
     @Inject
@@ -174,10 +169,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         playerView.requestFocus()
 
         viewModel.init(args.item)
-
-        if (authManager.profile.token.isNotEmpty()) {
-            containerNewMessage.visibility = View.VISIBLE
-        }
 
         RxView.clicks(ivSend)
                 .compose(bindToLifecycle())
