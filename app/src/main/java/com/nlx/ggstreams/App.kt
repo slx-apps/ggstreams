@@ -1,41 +1,17 @@
 package com.nlx.ggstreams
 
-import android.app.Activity
 import android.app.Application
-import android.support.v4.app.Fragment
-import com.nlx.ggstreams.di.DaggerAppComponent
-import com.nlx.ggstreams.di.modules.AppModule
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
-import javax.inject.Inject
+import dagger.hilt.android.HiltAndroidApp
 
-class App : Application(), HasActivityInjector, HasSupportFragmentInjector {
+@HiltAndroidApp
+class App : Application() {
 
-
-    @Inject
-    lateinit var dispatchingActivityInjector: DispatchingAndroidInjector<Activity>
-    @Inject
-    lateinit var dispatchingSupportFragmentInjector: DispatchingAndroidInjector<Fragment>
+//    val appComponent: AppComponent by lazy {
+//        DaggerAppComponent.factory().create(applicationContext)
+//    }
 
     override fun onCreate() {
         super.onCreate()
-
-        DaggerAppComponent.builder()
-                .application(this)
-                .appModule(AppModule(this))
-                .build()
-                .inject(this)
-    }
-
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return dispatchingActivityInjector
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return dispatchingSupportFragmentInjector
     }
 
 }

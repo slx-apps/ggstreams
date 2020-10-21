@@ -15,4 +15,4 @@ data class GGStream(
         @SerializedName("player_src")
         var playerSrc: String = "",
         var thumb: String = ""
-        ) : Parcelable
+) : Parcelable

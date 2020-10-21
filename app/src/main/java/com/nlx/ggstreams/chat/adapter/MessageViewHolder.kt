@@ -1,13 +1,13 @@
 package com.nlx.ggstreams.chat.adapter
 
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.GGMessage
 import kotlinx.android.synthetic.main.row_chat_message.view.*
 
-class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     private lateinit var message: GGMessage
 

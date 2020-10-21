@@ -39,25 +39,18 @@ class GGRestClient(client: OkHttpClient,
     companion object {
         const val GOODGAME_API_V1_ENDPOINT = "https://goodgame.ru"
         const val GOODGAME_API_V2_ENDPOINT = "https://api2.goodgame.ru"
-        const val GOODGAME_API_HLS = "https://hls.goodgame.ru/hls/"
-
+        const val GOODGAME_API_HLS = "http://hls.goodgame.ru/hls/"
         // Headers
         const val HEADER_API_V2_VERSION = "Accept: application/vnd.goodgame.v2+json"
-        const val HEADER_API_V2_HAL_JSON = "Accept: application/hal+json"
-        const val HEADER_API_V2_JSON = "Accept: application/json"
-
 
         const val GOODGAME_API_AUTH = "/api/token"
         const val GOODGAME_API_CHAT_AUTH = "/ajax/chatlogin"
 
-        const val GOODGAME_API_V2_USER = "/users/{user}"
         const val GOODGAME_API_V2_CHANNEL_SMILES = "/smiles/{channelId}"
         const val GOODGAME_API_V2_ALL_SMILES = "/smiles"
         const val GOODGAME_API_V2_STREAMS = "/streams"
 
-
         const val CHANNEL_STATUS = "api/getggchannelstatus"
-        const val FORMAT_JSON = "json"
 
         const val CACHE_CONTROL = "Cache-Control"
 

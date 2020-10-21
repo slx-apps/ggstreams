@@ -4,8 +4,6 @@ import android.text.TextUtils
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import com.nlx.ggstreams.auth.login.di.AuthManager
-import com.nlx.ggstreams.data.EmoteIconsRepo
 import com.nlx.ggstreams.models.*
 import com.nlx.ggstreams.rest.GGApi
 import io.reactivex.BackpressureStrategy
@@ -17,11 +15,10 @@ import okhttp3.Response
 
 class GGChat(private val client: OkHttpClient,
              val api: GGApi,
-             private val gson: Gson,
-             private val manager: AuthManager
+             private val gson: Gson
     ) : WebSocketListener() {
 
-    private val parser: JsonParser = JsonParser ()
+    private val parser: JsonParser = JsonParser()
     private var channelId = -1
 
     private val chatMessagePublishSubject : PublishSubject<GGMessage> = PublishSubject.create<GGMessage>()
@@ -38,24 +35,19 @@ class GGChat(private val client: OkHttpClient,
         if (channelId >= 0) {
             connect()
         }
-
-        manager.profileObservable()
-               .subscribe { chatProfile -> login(chatProfile) }
-
-        login(manager.profile)
     }
 
-    override fun onOpen(webSocket: WebSocket?, response: Response?) {
+    override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
-        Log.d(TAG, "onOpen")
 
         val dataContainer = DataContainer(CHAT_TYPE_JOIN, PostMessage(channelId, null, CHAT_TYPE_JOIN))
 
-        webSocket?.send(gson.toJson(dataContainer))
+        webSocket.send(gson.toJson(dataContainer))
     }
 
-    override fun onMessage(webSocket: WebSocket?, text: String?) {
+    override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
+
         Log.d(TAG, "received message: $text")
 
         val messageObject = parser.parse(text).asJsonObject
@@ -67,7 +59,7 @@ class GGChat(private val client: OkHttpClient,
 
             when (messageType) {
                 CHAT_TYPE_WELCOME -> {
-                    //val helloResponse = gson.fromJson(data, HelloResponse::class.java)
+                    //
                 }
 
                 CHAT_TYPE_CHANNEL_COUNTERS -> {
@@ -81,7 +73,7 @@ class GGChat(private val client: OkHttpClient,
                 }
 
                 CHAT_TYPE_SUCCESS_JOIN -> {
-                    //val join = gson.fromJson(data, SuccessJoinResponse::class.java)
+                    //
                 }
 
                 CHAT_TYPE_SUCCESS_AUTH -> {
@@ -93,22 +85,19 @@ class GGChat(private val client: OkHttpClient,
         }
     }
 
-    override fun onClosing(webSocket: WebSocket?, code: Int, reason: String?) {
+    override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
 
-        webSocket?.close(1000, null)
+        webSocket.close(1000, null)
         Log.d(TAG, "closed with exit code $code additional info: $reason")
     }
 
-    override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: Response?) {
+    override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         super.onFailure(webSocket, t, response)
-        t?.printStackTrace()
+        t.printStackTrace()
     }
 
     private fun connect() {
-//        if (isConnected()) {
-//            leaveChannel()
-//        }
         if (channelId > -1) {
             Log.d(TAG, "connect")
 
@@ -144,8 +133,6 @@ class GGChat(private val client: OkHttpClient,
             val postMessage = PostMessage(channelId, message, CHAT_TYPE_SEND_MESSAGE)
             val dataContainer = DataContainer(CHAT_TYPE_SEND_MESSAGE, postMessage)
             webSocket?.send(gson.toJson(dataContainer))
-        } else {
-
         }
     }
 

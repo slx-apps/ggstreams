@@ -15,14 +15,7 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         />
-<!--
-    <item android:id="@+id/action_add_fav"
-        android:icon="@drawable/ic_favorite_border"
-        android:title="@string/add_favorites"
-        android:orderInCategory="101"
-        app:showAsAction="ifRoom"
-        />
--->
+
     <item android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"

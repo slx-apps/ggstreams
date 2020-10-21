@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Spannable
 import android.text.Spanned
 import android.text.style.ImageSpan
@@ -18,13 +18,14 @@ import com.nlx.ggstreams.models.GGMessage
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.row_chat_message.view.*
+import java.lang.Exception
 
 
 private val spannableFactory = Spannable.Factory.getInstance()
 
 class ChatAdapter(val context: Context,
                   private val icons: EmoteIconsRepo,
-                  private val listener: (GGMessage) -> Unit) : RecyclerView.Adapter<MessageViewHolder>() {
+                  private val listener: (GGMessage) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<MessageViewHolder>() {
 
     companion object {
         const val TAG = "ChatAdapter"
@@ -81,7 +82,7 @@ class ChatAdapter(val context: Context,
                 val target = EmoteIconTarget(start, end, textView, spannable)
                 targets.add(target)
 
-                Picasso.with(context)
+                Picasso.get()
                         .load(emoteIcon.urls.big)
                         .placeholder(R.drawable.ic_insert_emoticon)
                         .resize(50, 50)
@@ -129,7 +130,7 @@ class ChatAdapter(val context: Context,
 			targets.remove(this)
         }
 
-        override fun onBitmapFailed(errorDrawable: Drawable) {
+        override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
             targets.remove(this)
         }
 

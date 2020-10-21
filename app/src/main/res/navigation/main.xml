@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/streamListFragment">
+
+    <fragment
+        android:id="@+id/streamListFragment"
+        android:name="com.nlx.ggstreams.ui.list.StreamListFragment"
+        android:label="fr_stream_list"
+        tools:layout="@layout/fr_stream_list" >
+        <action
+            android:id="@+id/action_streamListFragment_to_streamFragment"
+            app:destination="@id/streamFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/streamFragment"
+        android:name="com.nlx.ggstreams.ui.stream.StreamFragment"
+        android:label="StreamFragment"
+        >
+        <argument
+            android:name="item"
+            app:argType="com.nlx.ggstreams.models.GGStream" />
+    </fragment>
+</navigation>

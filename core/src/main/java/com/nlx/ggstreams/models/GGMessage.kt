@@ -2,7 +2,7 @@ package com.nlx.ggstreams.models
 
 import com.google.gson.annotations.SerializedName
 
-data class GGMessage (
+data class GGMessage(
         @SerializedName("channel_id")
         val channelId: Int = -1,
         @SerializedName("user_id")

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
 
-    <com.nlx.ggstreams.AutofitRecyclerView
+    <com.nlx.ggstreams.ui.AutofitRecyclerView
         android:id="@+id/rv_icons_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
