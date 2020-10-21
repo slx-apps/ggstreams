@@ -18,6 +18,7 @@ import com.nlx.ggstreams.models.GGMessage
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.row_chat_message.view.*
+import timber.log.Timber
 import java.lang.Exception
 
 
@@ -69,7 +70,7 @@ class ChatAdapter(val context: Context,
         while (matcher.find()) {
 
             val emoteIcon = icons.getIcon(matcher.group(1))
-            Log.d(TAG, "addEmoteIcons: " + emoteIcon)
+            Timber.d("addEmoteIcons: " + emoteIcon)
             if (emoteIcon != null) {
 
 //                val start: Int  = textView.selectionStart - 1

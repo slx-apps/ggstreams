@@ -1,1 +1,2 @@
-GGStreams - open source client for goodgame.ru
+GGStreams - open source client for goodgame.ru.
+Built using kotlin coroutines, jetpack navigation, exoplayer, jetpack paging 3, dagger/hilt
