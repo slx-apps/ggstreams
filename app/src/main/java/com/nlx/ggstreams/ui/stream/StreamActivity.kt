@@ -3,7 +3,6 @@ package com.nlx.ggstreams.ui.stream
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.models.GGStream
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -29,7 +28,7 @@ class StreamActivity : RxAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.StreamTheme)
+        setTheme(R.style.TransparentTheme)
         setContentView(R.layout.activity_stream)
 
         if (intent != null) {

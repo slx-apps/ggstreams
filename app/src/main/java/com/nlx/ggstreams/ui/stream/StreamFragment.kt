@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
 import com.google.android.exoplayer2.mediacodec.MediaCodecUtil
@@ -38,6 +39,7 @@ import com.nlx.ggstreams.models.EmoteIcon
 import com.nlx.ggstreams.models.GGMessage
 import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.rest.GGRestClient.Companion.GOODGAME_API_HLS
+import com.nlx.ggstreams.ui.MainActivity
 import com.nlx.ggstreams.utils.extensions.toast
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
@@ -54,6 +56,8 @@ import javax.inject.Inject
 class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.VisibilityListener,
         OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener {
 
+    val args: StreamFragmentArgs by navArgs()
+
     @Inject
     lateinit var repo: EmoteIconsRepo
     @Inject
@@ -66,8 +70,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     lateinit var cookieManager: CookieManager
 
     private val viewModel: StreamViewModel by viewModels { defaultViewModelProviderFactory }
-
-    var stream : GGStream? = null
 
     // Player
     private var window: Timeline.Window? = null
@@ -118,11 +120,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER)
 
-        val args = arguments
-        if (args != null) {
-            stream = args.getParcelable(StreamActivity.KEY_STREAM)
-        }
-
         setHasOptionsMenu(true)
 
 
@@ -148,8 +145,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         super.onViewCreated(view, savedInstanceState)
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-        (activity as StreamActivity).setSupportActionBar(toolbar)
-
+        (activity as MainActivity).setSupportActionBar(toolbar)
+        toolbar.title = args.item.key
 
 
         // Set the padding to match the Status Bar height
@@ -176,7 +173,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         playerView.setControllerVisibilityListener(this)
         playerView.requestFocus()
 
-        viewModel.init(stream)
+        viewModel.init(args.item)
 
         if (authManager.profile.token.isNotEmpty()) {
             containerNewMessage.visibility = View.VISIBLE
@@ -195,13 +192,13 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                     showKeyboard()
                 }
 
-        viewModel.observeIcons().observe(viewLifecycleOwner) {
+        viewModel.observeIcons().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             emoteIconsLoaded(it)
-        }
+        })
 
-        viewModel.observeMessages().observe(viewLifecycleOwner) {
+        viewModel.observeMessages().observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             onNewMessage(it)
-        }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

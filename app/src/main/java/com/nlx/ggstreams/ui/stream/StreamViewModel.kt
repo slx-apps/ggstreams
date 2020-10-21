@@ -66,7 +66,7 @@ class StreamViewModel @ViewModelInject constructor(private val preferencesUtils:
                                 it.printStackTrace()
                             }))
 
-            repo.loadEmoteIcons(it.streamId.toString())
+            //repo.loadEmoteIcons(it.streamId.toString())
         }
     }
 
