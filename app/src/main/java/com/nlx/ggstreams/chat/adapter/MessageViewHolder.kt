@@ -4,10 +4,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.nlx.ggstreams.R
+import com.nlx.ggstreams.databinding.RowChatMessageBinding
 import com.nlx.ggstreams.models.GGMessage
-import kotlinx.android.synthetic.main.row_chat_message.view.*
 
-class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+class MessageViewHolder(val view: RowChatMessageBinding) : RecyclerView.ViewHolder(view.root) {
 
     private lateinit var message: GGMessage
 
@@ -20,25 +20,25 @@ class MessageViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerV
 
     fun setMessage(message: CharSequence?) {
         if (message == null) return
-        itemView.tvText.text = message
+        view.tvText.text = message
     }
 
     private fun setFrom(user: String, color: String) {
         when (color) {
-            "simple" -> itemView.tvFrom.setTextColor(
+            "simple" -> view.tvFrom.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.silver))
-            "silver" -> itemView.tvFrom.setTextColor(
+            "silver" -> view.tvFrom.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.silver))
-            "gold" -> itemView.tvFrom.setTextColor(
+            "gold" -> view.tvFrom.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.gold))
-            "premium-personal" -> itemView.tvFrom.setTextColor(
+            "premium-personal" -> view.tvFrom.setTextColor(
                     ContextCompat.getColor(itemView.context, R.color.premium))
         }
 
         if (user.isEmpty()) {
-            itemView.tvFrom.text = ""
+            view.tvFrom.text = ""
         } else {
-            itemView.tvFrom.text = user
+            view.tvFrom.text = user
         }
     }
 }

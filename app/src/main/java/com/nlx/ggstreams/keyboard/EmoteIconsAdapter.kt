@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nlx.ggstreams.R
+import com.nlx.ggstreams.databinding.ItemEmoteIconBinding
 import com.nlx.ggstreams.models.EmoteIcon
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_emote_icon.view.*
 
 class EmoteIconsAdapter(val context: Context,
                         val list: List<EmoteIcon>,
@@ -17,7 +17,7 @@ class EmoteIconsAdapter(val context: Context,
     var listener: OnEmoteIconClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmoteIconViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_emote_icon, parent, false)
+        val view = ItemEmoteIconBinding.inflate(LayoutInflater.from(context), parent, false)
 
         val viewHolder = EmoteIconViewHolder(view, picasso)
         return viewHolder
@@ -26,11 +26,11 @@ class EmoteIconsAdapter(val context: Context,
     override fun onBindViewHolder(holder: EmoteIconViewHolder, position: Int) {
         val emoteIcon = list[position]
 
-        holder.itemView.iv_emote_icon.setOnClickListener {
+        holder.view.ivEmoteIcon.setOnClickListener {
             listener?.onEmoteIconClick(emoteIcon)
         }
 
-        holder.itemView.iv_emote_icon.setOnLongClickListener(View.OnLongClickListener {
+        holder.view.ivEmoteIcon.setOnLongClickListener(View.OnLongClickListener {
             listener?.onEmoteIconLongClick(emoteIcon)
             return@OnLongClickListener true
         })

@@ -14,10 +14,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.data.EmoteIconsRepo
+import com.nlx.ggstreams.databinding.RowChatMessageBinding
 import com.nlx.ggstreams.models.GGMessage
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
-import kotlinx.android.synthetic.main.row_chat_message.view.*
 import timber.log.Timber
 import java.lang.Exception
 
@@ -26,11 +26,7 @@ private val spannableFactory = Spannable.Factory.getInstance()
 
 class ChatAdapter(val context: Context,
                   private val icons: EmoteIconsRepo,
-                  private val listener: (GGMessage) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<MessageViewHolder>() {
-
-    companion object {
-        const val TAG = "ChatAdapter"
-    }
+                  private val listener: (GGMessage) -> Unit) : RecyclerView.Adapter<MessageViewHolder>() {
 
     private val targets = ArrayList<EmoteIconTarget>()
     private var messages: MutableList<GGMessage> = mutableListOf()
@@ -38,7 +34,7 @@ class ChatAdapter(val context: Context,
     override fun getItemCount(): Int =  messages.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.row_chat_message, parent, false)
+        val view = RowChatMessageBinding.inflate(LayoutInflater.from(context), parent, false)
 
         val viewHolder = MessageViewHolder(view)
         return viewHolder
@@ -53,7 +49,7 @@ class ChatAdapter(val context: Context,
         val spannable:Spannable = spannableFactory.newSpannable(m.text)
         holder.setMessage(spannable)
 
-        addEmoteIcons(spannable, holder.itemView.tvText)
+        addEmoteIcons(spannable, holder.view.tvText)
 
         holder.itemView.setOnClickListener {
             listener(m)
@@ -70,13 +66,7 @@ class ChatAdapter(val context: Context,
         while (matcher.find()) {
 
             val emoteIcon = icons.getIcon(matcher.group(1))
-            Timber.d("addEmoteIcons: " + emoteIcon)
             if (emoteIcon != null) {
-
-//                val start: Int  = textView.selectionStart - 1
-//                val end: Int = textView.selectionEnd
-
-
                 val start = matcher.start()
                 val end = matcher.end()
 

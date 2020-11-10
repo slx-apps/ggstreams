@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.nlx.ggstreams.R
+import com.nlx.ggstreams.databinding.RowStreamBinding
 import com.nlx.ggstreams.models.GGStream
 import com.squareup.picasso.Picasso
 
@@ -29,7 +30,7 @@ class StreamsAdapter (val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.row_stream, parent, false)
+        val view = RowStreamBinding.inflate(LayoutInflater.from(context), parent, false)
 
         val viewHolder = StreamViewHolder(view, picasso)
         return viewHolder

@@ -1,28 +1,29 @@
 package com.nlx.ggstreams.ui.list.adapter
 
-import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.nlx.ggstreams.databinding.RowStreamBinding
 import com.nlx.ggstreams.models.GGStream
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.row_stream.view.*
 
 
-class StreamViewHolder(view: View, val picasso: Picasso) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
+class StreamViewHolder(val view: RowStreamBinding,
+                       val picasso: Picasso) : RecyclerView.ViewHolder(view.view) {
 
     fun bind(stream: GGStream) {
 
         // set Image
         picasso.load("http:" + stream.thumb)
                 .fit()
-                .into(itemView.ivPreview)
+                .into(view.ivPreview)
 
 
         // title
-        itemView.tvTitle.text = stream.title
+        view.tvTitle.text = stream.title
 
         // description
-        itemView.tvStreamer.text = stream.key
+        view.tvStreamer.text = stream.key
 
         // viewers
-        itemView.tvViewers.text = stream.viewers.toString()
+        view.tvViewers.text = stream.viewers.toString()
     }
 }

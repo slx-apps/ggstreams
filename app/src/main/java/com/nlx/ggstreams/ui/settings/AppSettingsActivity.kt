@@ -24,7 +24,7 @@ class AppSettingsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val appSettingsFragment = AppSettingsFragment()
-        val ft = fragmentManager.beginTransaction()
+        val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.settings_container, appSettingsFragment)
         ft.commit()
     }

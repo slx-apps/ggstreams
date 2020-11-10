@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Spanned
 import android.text.style.ImageSpan
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -30,11 +29,11 @@ import com.jakewharton.rxbinding2.view.RxView
 import com.nlx.ggstreams.R
 import com.nlx.ggstreams.chat.adapter.ChatAdapter
 import com.nlx.ggstreams.data.EmoteIconsRepo
+import com.nlx.ggstreams.databinding.FrStreamBinding
 import com.nlx.ggstreams.keyboard.EmoteIconsKeyboard
 import com.nlx.ggstreams.keyboard.OnEmoteIconClickListener
 import com.nlx.ggstreams.models.EmoteIcon
 import com.nlx.ggstreams.models.GGMessage
-import com.nlx.ggstreams.models.GGStream
 import com.nlx.ggstreams.rest.GGRestClient.Companion.GOODGAME_API_HLS
 import com.nlx.ggstreams.ui.MainActivity
 import com.nlx.ggstreams.utils.extensions.toast
@@ -42,7 +41,6 @@ import com.squareup.picasso.Picasso
 import com.squareup.picasso.Target
 import com.trello.rxlifecycle2.components.support.RxFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fr_stream.*
 import timber.log.Timber
 import java.net.CookieHandler
 import java.net.CookieManager
@@ -54,7 +52,9 @@ import javax.inject.Inject
 class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.VisibilityListener,
         OnEmoteIconClickListener, EmoteIconsKeyboard.OnIconRemoveClickListener {
 
-    val args: StreamFragmentArgs by navArgs()
+    private val args: StreamFragmentArgs by navArgs()
+    private var _binding: FrStreamBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     lateinit var repo: EmoteIconsRepo
@@ -95,19 +95,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
     private val adapter: ChatAdapter by lazy  {
         ChatAdapter(requireContext(), repo) {
-            etMessage.text.append(it.userName + ", ")
-        }
-    }
-
-    companion object {
-        const val TAG = "StreamFragment"
-
-        fun newInstance(stream : GGStream): StreamFragment {
-            val newsFragment = StreamFragment()
-            val args = Bundle()
-            args.putParcelable(StreamActivity.KEY_STREAM, stream)
-            newsFragment.arguments = args
-            return newsFragment
+            binding.etMessage.text.append(it.userName + ", ")
         }
     }
 
@@ -133,8 +121,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fr_stream, container, false) as View
-        return view
+        _binding = FrStreamBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,10 +138,10 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         toolbar?.setPadding(0, statusBarHeight, 0, 0)
 
         linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, true)
-        rvChat.layoutManager = linearLayoutManager
-        rvChat.adapter = adapter
-        rvChat.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-        rvChat.setHasFixedSize(false)
+        binding.rvChat.layoutManager = linearLayoutManager
+        binding.rvChat.adapter = adapter
+        binding.rvChat.itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+        binding.rvChat.setHasFixedSize(false)
 
         shouldAutoPlay = true
         mediaDataSourceFactory = DefaultDataSourceFactory(activity, "f")
@@ -163,22 +151,22 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         if (CookieHandler.getDefault() !== cookieManager) {
             CookieHandler.setDefault(cookieManager)
         }
-        val height = playerView.height
+        val height = binding.playerView.height
         height + statusBarHeight
 
-        playerView.setControllerVisibilityListener(this)
-        playerView.requestFocus()
+        binding.playerView.setControllerVisibilityListener(this)
+        binding.playerView.requestFocus()
 
         viewModel.init(args.item)
 
-        RxView.clicks(ivSend)
+        RxView.clicks(binding.ivSend)
                 .compose(bindToLifecycle())
-                .doAfterNext { etMessage.text.clear() }
+                .doAfterNext { binding.etMessage.text.clear() }
                 .subscribe {
-                    viewModel.postMessage(etMessage.text.toString())
+                    viewModel.postMessage(binding.etMessage.text.toString())
                 }
 
-        RxView.clicks(ivOpenEmoteIcons)
+        RxView.clicks(binding.ivOpenEmoteIcons)
                 .compose(bindToLifecycle())
                 .subscribe {
                     showKeyboard()
@@ -275,7 +263,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         if (playbackState == ExoPlayer.STATE_ENDED) {
             //showControls()
         } else if (playbackState == ExoPlayer.STATE_BUFFERING) {
-            progressBar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         }
         updateButtonVisibilities()
     }
@@ -355,7 +343,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
                 it.setAudioDebugListener(eventLogger)
                 it.setVideoDebugListener(eventLogger)
 
-                playerView.player = player
+                binding.playerView.player = player
                 if (isTimelineStatic) {
                     if (playerPosition == C.TIME_UNSET) {
                         it.seekToDefaultPosition(playerWindow)
@@ -398,7 +386,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
     }
 
     private fun updateButtonVisibilities() {
-        progressBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     private fun releasePlayer() {
@@ -425,14 +413,6 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
         }
     }
 
-    fun onBackPressed() {
-        if (emoteIconsKeyboard != null && emoteIconsKeyboard?.isKeyBoardOpen()!!) {
-            emoteIconsKeyboard?.hide()
-        } else {
-            (activity as StreamActivity).close()
-        }
-    }
-
     override fun onEmoteIconClick(emoteIcon: EmoteIcon) {
         addEmoteIcon(emoteIcon)
     }
@@ -444,13 +424,13 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
     override fun onIconRemoveClick(v: View) {
         val event = KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL)
-        etMessage.dispatchKeyEvent(event)
+        binding.etMessage.dispatchKeyEvent(event)
     }
 
     private fun addEmoteIcon(emoteIcon: EmoteIcon) {
-        val start: Int  = etMessage.selectionStart - 1
-        val end: Int = etMessage.selectionEnd
-        var target = EditTextTarget(start, end, etMessage, emoteIcon)
+        val start: Int  = binding.etMessage.selectionStart - 1
+        val end: Int = binding.etMessage.selectionEnd
+        var target = EditTextTarget(start, end, binding.etMessage, emoteIcon)
         targets.add(target)
 
         Picasso.get()
@@ -462,7 +442,7 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
 
     private fun createKeyboard() {
         emoteIconsKeyboard = EmoteIconsKeyboard(requireContext(),
-                contentRoot, this@StreamFragment, repo, picasso)
+                binding.contentRoot, this@StreamFragment, repo, picasso)
         emoteIconsKeyboard?.let {
             it.onEmoteIconClickListener = this
             it.onSmileBackspaceClickListener = this
@@ -474,8 +454,8 @@ class StreamFragment : RxFragment(), Player.EventListener, PlayerControlView.Vis
             if (it.isKeyBoardOpen()) {
                 it.hide()
             } else {
-                etMessage.isFocusableInTouchMode = true
-                etMessage.requestFocus()
+                binding.etMessage.isFocusableInTouchMode = true
+                binding.etMessage.requestFocus()
                 it.showAtBottom()
             }
         }
